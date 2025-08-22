@@ -6,6 +6,9 @@
     "web": {
       "output": "static"
     },
+    "android": {
+      "softwareKeyboardLayoutMode": "pan"
+    },
     "plugins": [
       [
         "expo-router",

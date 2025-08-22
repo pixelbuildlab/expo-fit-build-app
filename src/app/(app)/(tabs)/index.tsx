@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {AppSafeAreaBoundary} from '@/components';
+import {AppSafeAreaBoundary} from '@/components/AppSafeAreaBoundary';
 
 export default function Page() {
   return (

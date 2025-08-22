@@ -2,6 +2,7 @@ import React from 'react';
 import {Tabs} from 'expo-router';
 import {AntDesign} from '@expo/vector-icons';
 import {Image} from 'react-native';
+
 const AppTabLayout = () => {
   return (
     <Tabs>
