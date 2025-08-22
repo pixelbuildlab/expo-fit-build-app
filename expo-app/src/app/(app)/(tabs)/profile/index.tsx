@@ -8,7 +8,7 @@ export default function Page() {
   const {signOut} = useAuth();
 
   const handleSignOut = async () => {
-    Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
+    Alert.alert('Sign Out', 'Are you sure, you want to sign out?', [
       {text: 'Cancel', style: 'cancel'},
       {text: 'Sign Out', style: 'destructive', onPress: () => signOut()},
     ]);
