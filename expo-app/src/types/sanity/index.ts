@@ -207,3 +207,66 @@ export type AllSanitySchemaTypes =
   | Slug
   | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: ../expo-app/src/app/(app)/(tabs)/exercises.tsx
+// Variable: exerciseQuery
+// Query: *[_type == "exercise"]{  _id,  name,  _type,  description,  exerciseImage,  videoUrl,  difficultyLevel,  isActive}
+export type ExerciseQueryResult = Array<{
+  _id: string;
+  name: string | null;
+  _type: 'exercise';
+  description: string | null;
+  exerciseImage: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  } | null;
+  videoUrl: string | null;
+  difficultyLevel: 'advanced' | 'beginner' | 'intermediate' | null;
+  isActive: boolean | null;
+}>;
+
+// Source: ../expo-app/src/app/(app)/exercise-details.tsx
+// Variable: singleExerciseQuery
+// Query: *[_type == "exercise" && _id == $id][0]
+export type SingleExerciseQueryResult = {
+  _id: string;
+  _type: 'exercise';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  description?: string;
+  difficultyLevel?: 'advanced' | 'beginner' | 'intermediate';
+  exerciseImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  videoUrl?: string;
+  isActive?: boolean;
+} | null;
+
+// Query TypeMap
+import '@sanity/client';
+declare module '@sanity/client' {
+  interface SanityQueries {
+    '*[_type == "exercise"]{\n  _id,\n  name,\n  _type,\n  description,\n  exerciseImage,\n  videoUrl,\n  difficultyLevel,\n  isActive\n}': ExerciseQueryResult;
+    '*[_type == "exercise" && _id == $id][0]': SingleExerciseQueryResult;
+  }
+}
