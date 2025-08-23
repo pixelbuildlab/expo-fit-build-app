@@ -11,4 +11,4 @@ const AuthScreenDivider = () => {
   );
 };
 
-export default AuthScreenDivider;
+export {AuthScreenDivider};

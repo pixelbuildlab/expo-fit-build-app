@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
-import {AppSafeAreaBoundary} from '@/components/AppSafeAreaBoundary';
+import {AppSafeAreaBoundary} from '@/components';
 import {Ionicons} from '@expo/vector-icons';
 import {useAuth} from '@clerk/clerk-expo';
 

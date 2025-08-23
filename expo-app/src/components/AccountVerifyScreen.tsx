@@ -1,9 +1,11 @@
 import React from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Ionicons} from '@expo/vector-icons';
-import {AppSafeAreaBoundary} from '@/components/AppSafeAreaBoundary';
 import Toast from 'react-native-toast-message';
+import {Ionicons} from '@expo/vector-icons';
+import {AppSafeAreaBoundary} from './AppSafeAreaBoundary';
+import {FormTextInput} from './form/FormTextInput';
+import {AppStyledGradient} from './AppStyledGradient';
 
 type AccountVerifyScreenProps = {
   emailAddress: string;
@@ -39,9 +41,15 @@ export function AccountVerifyScreen({
         <View className="flex-1 px-3">
           <View className="flex-1 justify-center">
             <View className="items-center mb-8">
-              <View className="w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 round-2xl mb-4 items-center justify-center shadow-lg">
+              <AppStyledGradient
+                colors={['#2563eb', '#7e22ce']}
+                start={[0, 0]}
+                end={[1, 1]}
+                className="w-20 h-20 rounded-2xl mb-4 items-center justify-center shadow-lg"
+              >
                 <Ionicons name="mail" size={40} color="#fff" />
-              </View>
+              </AppStyledGradient>
+
               <Text className="text-3xl font-bold text-gray-900 mb-2">
                 Check Your Email
               </Text>
@@ -60,7 +68,7 @@ export function AccountVerifyScreen({
                 <View className="flex-row items-center px-4 py-4 rounded-xl bg-gray-50 border border-gray-200">
                   {/* custom color */}
                   <Ionicons name="key-outline" size={20} color="#6b7280" />
-                  <TextInput
+                  <FormTextInput
                     value={code}
                     autoCapitalize="none"
                     placeholder="Enter 6-digit code"
@@ -97,7 +105,7 @@ export function AccountVerifyScreen({
                   </Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity className="py-2">
+              <TouchableOpacity className="py-2" activeOpacity={0.8}>
                 <Text className="text-blue-600 font-medium text-center">
                   Didn't receive code? Resend
                 </Text>
