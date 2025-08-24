@@ -7,6 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {AIService} from '../services/ai.service';
+import {SanityService} from '../services/sanity.service';
 import {ExerciseInstructionsDto} from '../dto/exercise-instructions.dto';
 import {ApiKeyGuard} from '../guards/api-key.guard';
 import type {ApiResponse} from '../types';
@@ -14,27 +15,43 @@ import type {ApiResponse} from '../types';
 @Controller('ai')
 @UseGuards(ApiKeyGuard)
 export class AIController {
-  constructor(private readonly aiService: AIService) {}
+  constructor(
+    private readonly aiService: AIService,
+    private readonly sanityService: SanityService,
+  ) {}
 
   @Post('exercise-instructions')
   async getExerciseInstructions(
     @Body() body: ExerciseInstructionsDto,
   ): Promise<ApiResponse<{instructions: string}>> {
     try {
-      const {exerciseName} = body;
+      const {exerciseID} = body;
 
-      if (!exerciseName) {
+      if (!exerciseID) {
         throw new HttpException(
           {
             success: false,
-            error: 'Exercise name is required',
+            error: 'Exercise ID is required',
           },
           HttpStatus.BAD_REQUEST,
         );
       }
 
-      const instructions =
-        await this.aiService.getExerciseInstructions(exerciseName);
+      const exercise = await this.sanityService.getExerciseById(exerciseID);
+
+      if (!exercise || !exercise.name) {
+        throw new HttpException(
+          {
+            success: false,
+            error: 'Exercise not found or has no name',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      const instructions = await this.aiService.getExerciseInstructions(
+        exercise.name,
+      );
 
       return {
         success: true,

@@ -25,18 +25,10 @@ export class SanityService {
   }
 
   async getAllExercises(): Promise<ExerciseQueryResult> {
-    const result = await this.client.fetch(`
-      *[_type == "exercise"]{
-        _id,
-        name,
-        _type,
-        description,
-        exerciseImage,
-        videoUrl,
-        difficultyLevel,
-        isActive
-      }
-    `);
+    const result = await this.client.fetch(
+      `*[_type == "exercise" && isActive == true]`,
+    );
+
     return result as ExerciseQueryResult;
   }
 

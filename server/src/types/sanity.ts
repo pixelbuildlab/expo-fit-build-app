@@ -209,13 +209,17 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../expo-app/src/app/(app)/(tabs)/exercises.tsx
 // Variable: exerciseQuery
-// Query: *[_type == "exercise"]{  _id,  name,  _type,  description,  exerciseImage,  videoUrl,  difficultyLevel,  isActive}
+// Query: *[_type == "exercise" && isActive == true]
 export type ExerciseQueryResult = Array<{
   _id: string;
-  name: string | null;
   _type: 'exercise';
-  description: string | null;
-  exerciseImage: {
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  description?: string;
+  difficultyLevel?: 'advanced' | 'beginner' | 'intermediate';
+  exerciseImage?: {
     asset?: {
       _ref: string;
       _type: 'reference';
@@ -227,10 +231,9 @@ export type ExerciseQueryResult = Array<{
     crop?: SanityImageCrop;
     alt?: string;
     _type: 'image';
-  } | null;
-  videoUrl: string | null;
-  difficultyLevel: 'advanced' | 'beginner' | 'intermediate' | null;
-  isActive: boolean | null;
+  };
+  videoUrl?: string;
+  isActive?: boolean;
 }>;
 
 // Source: ../expo-app/src/app/(app)/exercise-details.tsx
@@ -266,7 +269,7 @@ export type SingleExerciseQueryResult = {
 import '@sanity/client';
 declare module '@sanity/client' {
   interface SanityQueries {
-    '*[_type == "exercise"]{\n  _id,\n  name,\n  _type,\n  description,\n  exerciseImage,\n  videoUrl,\n  difficultyLevel,\n  isActive\n}': ExerciseQueryResult;
+    '*[_type == "exercise" && isActive == true]': ExerciseQueryResult;
     '*[_type == "exercise" && _id == $id][0]': SingleExerciseQueryResult;
   }
 }
