@@ -72,7 +72,7 @@ const Exercises = () => {
         <Text className="text-2xl font-bold text-gray-900">
           Exercise Library
         </Text>
-        <Text className="text-gray-600 mt1">
+        <Text className="text-gray-600 mt-1">
           Discover and master new exercises
         </Text>
         {/* input fields and icons */}
@@ -116,7 +116,7 @@ const Exercises = () => {
             data={_filteredExercises}
             keyExtractor={item => item._id}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{padding: 24}}
+            contentContainerClassName="p-6"
             renderItem={({item}) => (
               <ExerciseCard
                 item={item}

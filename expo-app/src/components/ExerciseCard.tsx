@@ -9,7 +9,7 @@ import type {ExerciseQueryResult} from '@/types/sanity';
 
 type ExerciseCardProps = {
   onPress: () => void;
-  item: ExerciseQueryResult[0];
+  item: ExerciseQueryResult[number];
   showChevron?: boolean;
 };
 

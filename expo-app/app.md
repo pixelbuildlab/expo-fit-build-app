@@ -21,3 +21,6 @@ send exercise id instead of name for instructions and add service to get name on
 superwall:
 - instructions using body/info- weight, height and meals
 - meal instrcutions
+
+
+use creative common videos url
