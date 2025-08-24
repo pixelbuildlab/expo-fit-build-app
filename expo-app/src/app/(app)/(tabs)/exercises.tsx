@@ -15,16 +15,9 @@ import {client} from '@/lib/sanity';
 import {APP_COLORS} from '@/theme';
 import type {ExerciseQueryResult} from '@/types/sanity';
 
-export const exerciseQuery = defineQuery(`*[_type == "exercise"]{
-  _id,
-  name,
-  _type,
-  description,
-  exerciseImage,
-  videoUrl,
-  difficultyLevel,
-  isActive
-}`);
+export const exerciseQuery = defineQuery(
+  `*[_type == "exercise" && isActive == true]`,
+);
 
 const Exercises = () => {
   const [searchText, setSearchText] = React.useState('');
@@ -57,7 +50,7 @@ const Exercises = () => {
     if (!isFetched) {
       fetchExercises();
     }
-  }, []);
+  }, [isFetched]);
 
   const _filteredExercises = React.useMemo(() => {
     if (!searchText) {
@@ -133,7 +126,7 @@ const Exercises = () => {
             refreshControl={
               // custom color
               <RefreshControlPreview
-                refreshing={false}
+                refreshing={isRefreshing}
                 onRefresh={onRefresh}
                 title="Pull down to refresh exercises"
                 titleColor={APP_COLORS.lightGrayPrimary}
