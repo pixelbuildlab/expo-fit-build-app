@@ -6,7 +6,6 @@ import {tokenCache} from '@clerk/clerk-expo/token-cache';
 import {StatusBar} from 'expo-status-bar';
 
 export default function Layout() {
-  console.log(process.env.APP_API_URL, 'api');
   return (
     <ClerkProvider tokenCache={tokenCache}>
       <StatusBar style="dark" />
