@@ -12,6 +12,8 @@
   "dependencies": {
     "@clerk/clerk-expo": "^2.14.23",
     "@expo/vector-icons": "^14.1.0",
+    "@sanity/client": "^7.9.0",
+    "@sanity/image-url": "^1.1.0",
     "expo": "53.0.20",
     "expo-constants": "~17.1.7",
     "expo-linking": "~7.1.7",
@@ -19,6 +21,7 @@
     "expo-secure-store": "^14.2.3",
     "expo-splash-screen": "~0.30.10",
     "expo-status-bar": "~2.2.3",
+    "groq": "^4.5.0",
     "nativewind": "^4.0.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
@@ -29,11 +32,14 @@
     "react-native-screens": "~4.11.1",
     "react-native-toast-message": "^2.3.3",
     "react-native-web": "^0.20.0",
-    "tailwindcss": "^3.4.0"
+    "tailwindcss": "^3.4.0",
+    "expo-linear-gradient": "~14.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@react-native/eslint-config": "^0.81.0",
     "@types/react": "~19.0.10",
+    "eslint": "^8.57.1",
     "prettier": "2.8.8",
     "typescript": "~5.8.3"
   },

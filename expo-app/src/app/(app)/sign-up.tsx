@@ -1,13 +1,17 @@
 import React from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Link, useRouter} from 'expo-router';
-import {useSignIn, useSignUp} from '@clerk/clerk-expo';
+import {useSignUp} from '@clerk/clerk-expo';
 import {Ionicons} from '@expo/vector-icons';
-import {AppSafeAreaBoundary} from '@/components/AppSafeAreaBoundary';
-import {AccountVerifyScreen} from '@/components/AccountVerifyScreen';
-import AuthScreenDivider from '@/components/AuthScreenDivider';
-import {GoogleSignIn} from '@/components/GoogleSignIn';
+import {
+  AppSafeAreaBoundary,
+  AccountVerifyScreen,
+  AuthScreenDivider,
+  GoogleSignIn,
+  FormTextInput,
+  AppStyledGradient,
+} from '@/components';
 import Toast from 'react-native-toast-message';
 import {isValidEmail} from '@/utils';
 
@@ -115,9 +119,14 @@ export default function Page() {
         <View className="flex-1 px-3">
           <View className="flex-1 justify-center">
             <View className="items-center mb-8">
-              <View className="w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 round-2xl mb-4 items-center justify-center shadow-lg">
+              <AppStyledGradient
+                colors={['#2563eb', '#7e22ce']}
+                start={[0, 0]}
+                end={[1, 1]}
+                className="w-20 h-20 rounded-2xl mb-4 items-center justify-center shadow-lg"
+              >
                 <Ionicons name="fitness" size={40} color="#fff" />
-              </View>
+              </AppStyledGradient>
               <Text className="text-3xl font-bold text-gray-900 mb-2">
                 Join FitBuild
               </Text>
@@ -137,12 +146,11 @@ export default function Page() {
                 <View className="flex-row items-center px-4 py-4 rounded-xl bg-gray-50 border border-gray-200">
                   {/* custom color */}
                   <Ionicons name="mail-outline" size={20} color="#6b7280" />
-                  <TextInput
+                  <FormTextInput
                     value={emailAddress}
                     autoCapitalize="none"
                     placeholder="Enter your email"
-                    className="flex-1 ml-3 text-gray-900 py-0"
-                    textAlignVertical="center"
+                    className="flex-1 ml-3 text-gray-900"
                     onChangeText={setEmailAddress}
                     editable={!isLoading}
                   />
@@ -159,13 +167,12 @@ export default function Page() {
                     size={20}
                     color="#6b7280"
                   />
-                  <TextInput
+                  <FormTextInput
                     value={password}
                     autoCapitalize="none"
                     secureTextEntry={isPassHidden}
                     placeholder="Enter your password"
-                    className="flex-1 ml-3 text-gray-900 py-0"
-                    textAlignVertical="center"
+                    className="flex-1 ml-3 text-gray-900"
                     onChangeText={setPassword}
                     editable={!isLoading}
                   />
@@ -173,6 +180,7 @@ export default function Page() {
                     onPress={() => {
                       setIsPassHidden(preState => !preState);
                     }}
+                    activeOpacity={0.8}
                   >
                     <Ionicons
                       name={isPassHidden ? 'eye-off-outline' : 'eye-outline'}
@@ -219,7 +227,7 @@ export default function Page() {
             <View className="flex-row justify-center items-center mt-2 pb-6">
               <Text className="text-gray-600">Already have an account? </Text>
               <Link href="/sign-in" asChild>
-                <TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
                   <Text className="text-blue-600 font-semibold">Sign In</Text>
                 </TouchableOpacity>
               </Link>
