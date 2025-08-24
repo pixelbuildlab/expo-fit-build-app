@@ -12,9 +12,8 @@ async function bootstrap() {
   const logger = new Logger('HTTP');
 
   app.enableCors({
-    origin: configService.get('cors.origin'),
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: configService.get('cors.credentials'),
   });
 
   app.setGlobalPrefix('api', {
