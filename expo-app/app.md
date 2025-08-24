@@ -13,4 +13,11 @@ env see
 3-
 
 
-move env to private keys
+
+
+move env to private keys -done maybe
+send exercise id instead of name for instructions and add service to get name only from sanity and pass to ai model
+
+superwall:
+- instructions using body/info- weight, height and meals
+- meal instrcutions

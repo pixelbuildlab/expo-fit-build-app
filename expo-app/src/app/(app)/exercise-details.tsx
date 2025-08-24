@@ -14,11 +14,16 @@ import {Ionicons} from '@expo/vector-icons';
 import {defineQuery} from 'groq';
 import {client, urlFor} from '@/lib/sanity';
 import {exerciseDifficultConfigs} from '@/constants';
+import {fetchWrapper} from '@/utils/fetchWrapper';
 import type {Exercise} from '@/types/sanity';
+import Markdown from 'react-native-markdown-display';
 
 const singleExerciseQuery = defineQuery(
   '*[_type == "exercise" && _id == $id][0]',
 );
+
+type Instructions = {data: {instructions: string}};
+
 const ModalClose = () => {
   const router = useRouter();
 
@@ -43,7 +48,7 @@ const ExerciseDetails = () => {
   const [isAILoading, setIsAILoading] = React.useState(false);
   const router = useRouter();
 
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     try {
       const exerciseData = await client.fetch(singleExerciseQuery, {id});
       setExercise(exerciseData);
@@ -52,13 +57,33 @@ const ExerciseDetails = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [id]);
 
   React.useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
-  const getAIGuidance = () => {};
+  const getAIGuidance = async () => {
+    if (!exercise?._id) {
+      return;
+    }
+
+    try {
+      setIsAILoading(true);
+
+      const aIExerciseGuide = await fetchWrapper<Instructions>({
+        method: 'POST',
+        endpoint: 'ai/exercise-instructions',
+        body: {exerciseID: exercise._id},
+      });
+
+      setAIcontent(aIExerciseGuide.data.instructions);
+    } catch (error) {
+      console.log('Error getting AI guidance: ', error);
+    } finally {
+      setIsAILoading(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -182,13 +207,52 @@ const ExerciseDetails = () => {
             </View>
           )}
           {/* Todo AI */}
-
+          {(aIContent || isAILoading) && (
+            <View className="mb-6">
+              <View className="flex-row mb-4 items-center">
+                <Ionicons name="fitness" size={24} color="#3b82f6" />
+                <Text className="text-xl font-semibold text-gray-800 ml-2">
+                  AI Coach says...
+                </Text>
+              </View>
+              {isAILoading ? (
+                <AppLoader
+                  text="Getting personalized guidance"
+                  containerClasses="bg-gray-50 rounded-xl p-4"
+                />
+              ) : (
+                <View className="bg-blue-50 rounded-xl p-4 border-l-4 border-blue-500">
+                  <Markdown
+                    style={{
+                      body: {paddingBottom: 20},
+                      heading2: {
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: '#1f2937',
+                        marginTop: 12,
+                        marginBottom: 6,
+                      },
+                      heading3: {
+                        fontSize: 16,
+                        fontWeight: '600',
+                        color: '#374151',
+                        marginTop: 8,
+                        marginBottom: 4,
+                      },
+                    }}
+                  >
+                    {aIContent}
+                  </Markdown>
+                </View>
+              )}
+            </View>
+          )}
           {/* Action */}
           <View className="mt-8 gap-2">
             <TouchableOpacity
               activeOpacity={0.8}
               disabled={isAILoading}
-              onPress={() => {}}
+              onPress={getAIGuidance}
               className={`rounded-xl py-4 items-center ${
                 isAILoading
                   ? 'bg-gray-400'
@@ -197,7 +261,7 @@ const ExerciseDetails = () => {
                   : 'bg-blue-500'
               }`}
             >
-              {false ? (
+              {isAILoading ? (
                 <AppLoader
                   indicatorProps={{color: '#fff', size: 'small'}}
                   text=""

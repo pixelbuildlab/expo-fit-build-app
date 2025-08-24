@@ -62,19 +62,33 @@ export class AIService {
   }
 
   async getExerciseInstructions(exerciseName: string): Promise<string> {
-    const systemPrompt = `You are a certified fitness trainer and exercise expert. Provide detailed, accurate, and safe exercise instructions. Always include proper form, safety precautions, and modifications when applicable.`;
+    const systemPrompt = `You are a certified fitness trainer and exercise expert.`;
 
-    const userPrompt = `Provide detailed instructions for the exercise "${exerciseName}". Include:
+    const userPrompt = `You are given an exercise, provide clear instructions on how to perform the exercise.
+                        Include if any equipment is required.
+                        Explain the exercise in detail and for a beginner.
+                        The exercise name is ${exerciseName}.
+                        
+                        Keep it short and concise.
+                        Always use markdown format for output.
+                        Do not use raw HTML tags like <br>.
 
-1. **How to perform the exercise step-by-step**
-2. **Proper body positioning and form**
-3. **Safety precautions and common mistakes to avoid**
-4. **Muscle groups targeted**
-5. **Equipment needed (if any)**
-6. **Modifications for different fitness levels**
-7. **Breathing technique**
+                        Use following format:
 
-Format your response in a clear, structured manner that's easy to follow.`;
+                        ## Equipment Required
+
+                        ## Instructions
+
+                        ### Tips
+
+                        ### Variations
+
+                        ### Safety
+
+                        additional notes: 
+                        keep spacing between the headings and content.
+                        Always use headings and subheadings.
+                        `;
 
     const response = await this.generateResponse({
       prompt: userPrompt,
