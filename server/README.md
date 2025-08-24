@@ -111,10 +111,6 @@ The application uses `@nestjs/config` for centralized configuration management:
     openRouterApiKey: 'your-key',
     defaultModel: 'openai/gpt-oss-20b:free',
     baseURL: 'https://openrouter.ai/api/v1'
-  },
-  cors: {
-    origin: true,
-    credentials: true
   }
 }
 ```
