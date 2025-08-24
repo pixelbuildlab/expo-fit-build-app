@@ -17,10 +17,5 @@ export default () => ({
     baseURL: 'https://openrouter.ai/api/v1',
   },
 
-  cors: {
-    origin: process.env.CORS_ORIGIN || true,
-    credentials: true,
-  },
-
   apiKey: process.env[API_KEY_ENV_VAR],
 });
