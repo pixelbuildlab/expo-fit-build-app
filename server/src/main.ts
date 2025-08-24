@@ -17,7 +17,9 @@ async function bootstrap() {
     credentials: configService.get('cors.credentials'),
   });
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', {
+    exclude: ['/'],
+  });
 
   app.use((req, res, next) => {
     const start = Date.now();
