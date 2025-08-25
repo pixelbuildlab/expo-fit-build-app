@@ -4,7 +4,7 @@ import {useAuth} from '@clerk/clerk-expo';
 import {AppLoader} from '@/components';
 
 const AppTabLayout = () => {
-  const {isLoaded, isSignedIn, userId, sessionId, getToken} = useAuth();
+  const {isLoaded, isSignedIn} = useAuth();
 
   if (!isLoaded) {
     return <AppLoader />;

@@ -24,3 +24,11 @@ export const getWorkoutQuery =
    _key
   }
   }`);
+
+export const exerciseQuery = defineQuery(
+  `*[_type == "exercise" && isActive == true]`,
+);
+
+export const singleExerciseQuery = defineQuery(
+  '*[_type == "exercise" && isActive == true && _id == $id][0]',
+);

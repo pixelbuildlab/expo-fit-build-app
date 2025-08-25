@@ -3,6 +3,7 @@ import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {
   AppLoader,
   AppSafeAreaBoundary,
+  AppErrorScreen,
   ExerciseCard,
   ExerciseEmptyList,
   FormTextInput,
@@ -10,47 +11,14 @@ import {
 } from '@/components';
 import {Ionicons} from '@expo/vector-icons';
 import {useRouter} from 'expo-router';
-import {defineQuery} from 'groq';
-import {client} from '@/lib/sanity';
 import {APP_COLORS} from '@/theme';
-import type {ExerciseQueryResult} from '@/types/sanity';
-
-export const exerciseQuery = defineQuery(
-  `*[_type == "exercise" && isActive == true]`,
-);
+import {useExercises} from '@/hooks/sanity';
 
 const Exercises = () => {
   const [searchText, setSearchText] = React.useState('');
-  const [isRefreshing, setIsRefreshing] = React.useState(false);
-  const [isFetched, setIsFetched] = React.useState(false);
-
-  const [exercises, setExercises] = React.useState<ExerciseQueryResult>([]);
+  const {exercises, isLoading, isRefetching, isError, refetch} = useExercises();
 
   const router = useRouter();
-
-  const fetchExercises = async () => {
-    try {
-      const apiExercises = await client.fetch(exerciseQuery);
-      // console.log(apiExercises, 'api-exercise');
-
-      setExercises(apiExercises);
-      setIsFetched(true);
-    } catch (error) {
-      console.error(`Error fetching exercises: Error: ${error}`);
-    }
-  };
-
-  const onRefresh = async () => {
-    setIsRefreshing(true);
-    await fetchExercises();
-    setIsRefreshing(false);
-  };
-
-  React.useEffect(() => {
-    if (!isFetched) {
-      fetchExercises();
-    }
-  }, [isFetched]);
 
   const _filteredExercises = React.useMemo(() => {
     if (!searchText) {
@@ -108,34 +76,40 @@ const Exercises = () => {
 
       {/* end topbar */}
       {/* exercise list */}
-      {!isFetched ? (
+      {isLoading ? (
         <AppLoader />
       ) : (
         <>
-          <FlatList
-            data={_filteredExercises}
-            keyExtractor={item => item._id}
-            showsVerticalScrollIndicator={false}
-            contentContainerClassName="p-6"
-            renderItem={({item}) => (
-              <ExerciseCard
-                item={item}
-                onPress={() => router.push(`/exercise-details?id=${item._id}`)}
-              />
-            )}
-            refreshControl={
-              // custom color
-              <RefreshControlPreview
-                refreshing={isRefreshing}
-                onRefresh={onRefresh}
-                title="Pull down to refresh exercises"
-                titleColor={APP_COLORS.lightGrayPrimary}
-                colors={[APP_COLORS.primaryBlue]}
-                tintColor={APP_COLORS.primaryBlue}
-              />
-            }
-            ListEmptyComponent={<ExerciseEmptyList searchText={searchText} />}
-          />
+          {!isError ? (
+            <FlatList
+              data={_filteredExercises}
+              keyExtractor={item => item._id}
+              showsVerticalScrollIndicator={false}
+              contentContainerClassName="p-6"
+              renderItem={({item}) => (
+                <ExerciseCard
+                  item={item}
+                  onPress={() =>
+                    router.push(`/exercise-details?id=${item._id}`)
+                  }
+                />
+              )}
+              refreshControl={
+                // custom color
+                <RefreshControlPreview
+                  refreshing={isRefetching}
+                  onRefresh={refetch}
+                  title="Pull down to refresh exercises"
+                  titleColor={APP_COLORS.lightGrayPrimary}
+                  colors={[APP_COLORS.primaryBlue]}
+                  tintColor={APP_COLORS.primaryBlue}
+                />
+              }
+              ListEmptyComponent={<ExerciseEmptyList searchText={searchText} />}
+            />
+          ) : (
+            <AppErrorScreen onRetry={refetch} />
+          )}
         </>
       )}
     </AppSafeAreaBoundary>

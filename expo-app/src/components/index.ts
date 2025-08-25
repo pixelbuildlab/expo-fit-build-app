@@ -7,4 +7,5 @@ export * from './GoogleSignIn';
 export * from './RefreshControlPreview';
 export * from './AppLoader';
 export * from './AppStyledGradient';
+export * from './AppErrorScreen';
 export * from './form';

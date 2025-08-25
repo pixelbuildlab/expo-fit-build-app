@@ -7,60 +7,29 @@ import {
 } from '@/components';
 import {Ionicons} from '@expo/vector-icons';
 import {useLocalSearchParams, useRouter} from 'expo-router';
-import {useUser} from '@clerk/clerk-expo';
-import {client} from '@/lib/sanity';
 import {APP_COLORS} from '@/theme';
-import {getWorkoutQuery} from '@/groq';
 import {formatDuration, workoutDateFormate} from '@/utils/time';
-
+import {useWorkoutHistory} from '@/hooks/sanity';
 import type {GetWorkoutQueryResult} from '@/types/sanity';
 
-export default function Page() {
-  const {user} = useUser();
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [workouts, setWorkouts] = React.useState<GetWorkoutQueryResult>([]);
-  const [isRefreshing, setIsRefreshing] = React.useState(false);
-  const [isFetched, setIsFetched] = React.useState(false);
+export default function HistoryPage() {
+  const {workouts, isLoading, refetch, isRefetching} = useWorkoutHistory();
+
   const {refresh} = useLocalSearchParams<{refresh: string}>();
+
+  console.log(refresh, 'todo implement');
+
   const router = useRouter();
+  // React.useEffect(() => {
+  //   if (refresh === '1') {
+  //     refetch();
+  //     router.replace('/(app)/(tabs)/history');
+  //   }
+  // }, [refetch, refresh, router]);
 
-  const fetchWorkouts = React.useCallback(async () => {
-    if (!user.id) {
-      return;
-    }
-
-    try {
-      const sanityWorkouts = await client.fetch(getWorkoutQuery, {
-        userId: user.id,
-      });
-
-      setWorkouts(sanityWorkouts);
-    } catch (error) {
-      console.log('Error getting workouts:', error);
-    } finally {
-      setIsLoading(false);
-      setIsRefreshing(false);
-    }
-  }, [user.id]);
-
-  React.useEffect(() => {
-    if (refresh === '1') {
-      fetchWorkouts();
-      router.replace('/(app)/(tabs)/history');
-    }
-  }, [refresh, fetchWorkouts, router]);
-
-  React.useEffect(() => {
-    if (!isFetched) {
-      fetchWorkouts();
-      setIsFetched(true);
-    }
-  }, [isFetched, fetchWorkouts, user.id]);
-
-  const onRefresh = async () => {
-    setIsRefreshing(true);
-    await fetchWorkouts();
-  };
+  // const onRefresh = async () => {
+  //   await refetch();
+  // };
 
   const getExerciseNames = React.useCallback(
     (workout: GetWorkoutQueryResult[number]) =>
@@ -104,8 +73,8 @@ export default function Page() {
         className="flex-1"
         refreshControl={
           <RefreshControlPreview
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
+            refreshing={isRefetching}
+            onRefresh={refetch}
             title="Pull down to refresh workouts"
             titleColor={APP_COLORS.lightGrayPrimary}
             colors={[APP_COLORS.primaryBlue]}

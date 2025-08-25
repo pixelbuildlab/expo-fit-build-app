@@ -36,5 +36,6 @@ export const fetchWrapper = async <TData>({
     return response.json() as Promise<TData>;
   } catch (error) {
     console.error('Error fetching data at endpoint:', endpoint, error);
+    throw new Error(error);
   }
 };

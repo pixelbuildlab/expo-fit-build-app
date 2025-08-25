@@ -207,7 +207,32 @@ export type AllSanitySchemaTypes =
   | Slug
   | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ../expo-app/src/app/(app)/(tabs)/exercises.tsx
+// Source: ../expo-app/src/groq/index.ts
+// Variable: getWorkoutQuery
+// Query: *[_type == "workout" && userId == $userId] | order(_createdAt desc) {  _id,  _createdAt,  duration,  exercises [] {   exercise -> {   _id,   name   },   sets [] {    setType,    reps,    weight,    weightUnit,    duration,    restTime,    _type,    _key   },   _type,   _key  }  }
+export type GetWorkoutQueryResult = Array<{
+  _id: string;
+  _createdAt: string;
+  duration: number | null;
+  exercises: Array<{
+    exercise: {
+      _id: string;
+      name: string | null;
+    } | null;
+    sets: Array<{
+      setType: 'duration' | 'reps' | null;
+      reps: number | null;
+      weight: number | null;
+      weightUnit: 'kg' | 'lbs' | null;
+      duration: number | null;
+      restTime: number | null;
+      _type: 'set';
+      _key: string;
+    }> | null;
+    _type: 'exerciseSet';
+    _key: string;
+  }> | null;
+}>;
 // Variable: exerciseQuery
 // Query: *[_type == "exercise" && isActive == true]
 export type ExerciseQueryResult = Array<{
@@ -235,37 +260,8 @@ export type ExerciseQueryResult = Array<{
   videoUrl?: string;
   isActive?: boolean;
 }>;
-
-// Source: ../expo-app/src/app/(app)/(tabs)/history/index.tsx
-// Variable: getWorkoutQuery
-// Query: *[_type == "workout" && userId == $userId] | order(_createdAt desc) {  _id,  _createdAt,  duration,  exercises [] {   exercise -> {   _id,   name   },   sets [] {    setType,    reps,    weight,    weightUnit,    duration,    restTime,    _type,    _key   },   _type,   _key  }  }
-export type GetWorkoutQueryResult = Array<{
-  _id: string;
-  _createdAt: string;
-  duration: number | null;
-  exercises: Array<{
-    exercise: {
-      _id: string;
-      name: string | null;
-    } | null;
-    sets: Array<{
-      setType: 'duration' | 'reps' | null;
-      reps: number | null;
-      weight: number | null;
-      weightUnit: 'kg' | 'lbs' | null;
-      duration: number | null;
-      restTime: number | null;
-      _type: 'set';
-      _key: string;
-    }> | null;
-    _type: 'exerciseSet';
-    _key: string;
-  }> | null;
-}>;
-
-// Source: ../expo-app/src/app/(app)/exercise-details.tsx
 // Variable: singleExerciseQuery
-// Query: *[_type == "exercise" && _id == $id][0]
+// Query: *[_type == "exercise" && isActive == true && _id == $id][0]
 export type SingleExerciseQueryResult = {
   _id: string;
   _type: 'exercise';
@@ -296,8 +292,8 @@ export type SingleExerciseQueryResult = {
 import '@sanity/client';
 declare module '@sanity/client' {
   interface SanityQueries {
-    '*[_type == "exercise" && isActive == true]': ExerciseQueryResult;
     '*[_type == "workout" && userId == $userId] | order(_createdAt desc) {\n  _id,\n  _createdAt,\n  duration,\n  exercises [] {\n   exercise -> {\n   _id,\n   name\n   },\n   sets [] {\n    setType,\n    reps,\n    weight,\n    weightUnit,\n    duration,\n    restTime,\n    _type,\n    _key\n   },\n   _type,\n   _key\n  }\n  }': GetWorkoutQueryResult;
-    '*[_type == "exercise" && _id == $id][0]': SingleExerciseQueryResult;
+    '*[_type == "exercise" && isActive == true]': ExerciseQueryResult;
+    '*[_type == "exercise" && isActive == true && _id == $id][0]': SingleExerciseQueryResult;
   }
 }

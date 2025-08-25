@@ -24,3 +24,7 @@ superwall:
 
 
 use creative common videos url
+
+## TODO
+    -   Use React native bottoms tabs callstackincubator
+    -   replace expo with react-native
