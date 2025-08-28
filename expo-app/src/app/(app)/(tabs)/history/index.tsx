@@ -1,5 +1,7 @@
 import React from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import Elevations from 'react-native-elevation';
+
 import {
   AppLoader,
   AppSafeAreaBoundary,
@@ -11,6 +13,7 @@ import {APP_COLORS} from '@/theme';
 import {formatDuration, workoutDateFormate} from '@/utils/time';
 import {useWorkoutHistory} from '@/hooks/sanity';
 import type {GetWorkoutQueryResult} from '@/types/sanity';
+import {getWorkoutSets} from '@/utils/appUtils';
 
 export default function HistoryPage() {
   const {workouts, isLoading, refetch, isRefetching} = useWorkoutHistory();
@@ -37,13 +40,13 @@ export default function HistoryPage() {
     [],
   );
 
-  const getWorkoutSets = React.useCallback(
-    (workout: GetWorkoutQueryResult[number]) =>
-      workout.exercises?.reduce((sum, item) => {
-        return sum + (item.sets?.length || 0);
-      }, 0),
-    [],
-  );
+  // const getWorkoutSets = React.useCallback(
+  //   (workout: GetWorkoutQueryResult[number]) =>
+  //     workout.exercises?.reduce((sum, item) => {
+  //       return sum + (item.sets?.length || 0);
+  //     }, 0),
+  //   [],
+  // );
 
   if (isLoading) {
     return (
@@ -87,7 +90,7 @@ export default function HistoryPage() {
             {workouts.map(workout => (
               <TouchableOpacity
                 activeOpacity={0.7}
-                className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+                className="bg-white rounded-2xl border border-gray-100 p-6"
                 key={workout._id}
                 onPress={() => {
                   router.push({
@@ -95,6 +98,7 @@ export default function HistoryPage() {
                     params: {workoutId: workout._id},
                   });
                 }}
+                style={{...Elevations[2]}}
               >
                 <View className="flex-row items-center mb-4 justify-between">
                   <View className="flex-1 gap-px">

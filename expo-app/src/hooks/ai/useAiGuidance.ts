@@ -5,6 +5,9 @@ import {QUERY_KEYS} from '@/constants/queryKeys';
 type Instructions = {data: {instructions: string}};
 
 const getAiGuidance = async (exerciseID: string) => {
+  if (!exerciseID) {
+    throw new Error('App unable to access exercise ID');
+  }
   return await fetchWrapper<Instructions>({
     method: 'POST',
     endpoint: 'ai/exercise-instructions',
@@ -13,11 +16,13 @@ const getAiGuidance = async (exerciseID: string) => {
 };
 
 export const useAIGuidance = (exerciseID: string) => {
-  const isMutatingPosts = useIsMutating({mutationKey: [QUERY_KEYS.aiGuidance]});
+  const isMutatingAIGuidance = useIsMutating({
+    mutationKey: [QUERY_KEYS.aiGuidance, exerciseID],
+  });
 
   const mutation = useMutation({
     mutationFn: () => getAiGuidance(exerciseID),
-    mutationKey: [QUERY_KEYS.aiGuidance],
+    mutationKey: [QUERY_KEYS.aiGuidance, exerciseID],
     onError: error => {
       console.log(
         'Failed to fetch AI Guidance for exercise: ',
@@ -30,6 +35,6 @@ export const useAIGuidance = (exerciseID: string) => {
   return {
     content: mutation.data?.data.instructions,
     ...mutation,
-    isLoading: !!isMutatingPosts,
+    isLoading: !!isMutatingAIGuidance,
   };
 };

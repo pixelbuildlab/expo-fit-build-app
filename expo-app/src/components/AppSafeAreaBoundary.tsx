@@ -11,7 +11,6 @@ const AppSafeAreaBoundary = ({
   return (
     <SafeAreaProvider>
       <SafeAreaView
-        style={{flex: 1}}
         edges={['top', 'left', 'right']}
         className={`flex-1 ${classname}`}
       >

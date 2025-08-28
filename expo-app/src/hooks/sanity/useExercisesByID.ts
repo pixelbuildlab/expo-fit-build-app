@@ -15,7 +15,7 @@ export const useExercisesByID = (exerciseID: string) => {
   });
 
   if (query.error) {
-    console.log('Failed to get exercises:', query.error);
+    console.log('Failed to get exercise for ID:', exerciseID, query.error);
   }
 
   return {

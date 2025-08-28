@@ -19,7 +19,7 @@ export const useWorkoutHistory = () => {
   });
 
   if (query.error) {
-    console.log('Failed to get exercises:', query.error);
+    console.log('Failed to get workout history:', query.error);
   }
 
   return {

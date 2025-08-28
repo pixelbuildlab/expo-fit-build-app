@@ -20,7 +20,11 @@ export function workoutDateFormate(_date: string): string {
     year: 'numeric',
   });
 }
-export function formatDuration(seconds) {
+export function formatDuration(seconds?: number) {
+  if (!seconds) {
+    return '';
+  }
+
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
@@ -44,3 +48,30 @@ export function formatDuration(seconds) {
 
   return parts.join(' ');
 }
+
+export const formatSingleWorkoutDate = (date: string | null) => {
+  if (!date) {
+    return '- -';
+  }
+  const _date = new Date(date);
+  return _date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+export const formatSingleWorkoutTime = (date: string | null) => {
+  if (!date) {
+    return '';
+  }
+
+  const _date = new Date(date);
+
+  return _date.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+};
