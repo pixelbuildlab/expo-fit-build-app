@@ -20,12 +20,206 @@ import {
 import {getWorkoutSets} from '@/utils/appUtils';
 import Elevation from 'react-native-elevation';
 import {useDeleteWorkout} from '@/hooks/sanity';
+import type {GetWorkoutQueryResult} from '@/types/sanity';
+
+type Sets = GetWorkoutQueryResult[number]['exercises'][number]['sets'];
+type ExerciseVolumeDisplayProps = {
+  _sets: Sets;
+  showKGs: boolean;
+  convertToKG: (lbs: number) => number;
+  convertToLBs: (kg: number) => number;
+};
+
+const ExerciseVolumeDisplay: React.FC<ExerciseVolumeDisplayProps> = ({
+  _sets,
+  showKGs,
+  convertToKG,
+  convertToLBs,
+}) => {
+  const calculateExerciseVolume = (sets: Sets) => {
+    if (!sets?.length) return null;
+
+    // Check if this is a duration-based exercise
+    const isDurationBased = sets.some(
+      set => set.setType === 'duration' && set.duration,
+    );
+    const hasWeight = sets.some(set => set.weight && set.weight > 0);
+
+    if (isDurationBased) {
+      // For duration-based exercises, show total time
+      const totalDuration = sets.reduce((acc, set) => {
+        return acc + (set.duration || 0);
+      }, 0);
+
+      if (hasWeight) {
+        // Weighted duration exercise - show both time and weight
+        const totalWeight = sets.reduce((acc, set) => {
+          return acc + (set.weight || 0);
+        }, 0);
+
+        // Get the most common weight unit
+        const weightUnits = sets
+          .filter(set => set.weight && set.weight > 0)
+          .map(set => set.weightUnit)
+          .filter(Boolean);
+
+        const mostCommonUnit =
+          weightUnits.length > 0
+            ? weightUnits.reduce((acc, unit) => {
+                acc[unit] = (acc[unit] || 0) + 1;
+                return acc;
+              }, {} as Record<string, number>)
+            : null;
+
+        const primaryUnit = mostCommonUnit
+          ? Object.keys(mostCommonUnit).reduce((a, b) =>
+              mostCommonUnit[a] > mostCommonUnit[b] ? a : b,
+            )
+          : 'kg';
+
+        // Convert to user's preferred unit
+        const displayWeight =
+          primaryUnit === 'kg' && !showKGs
+            ? convertToLBs(totalWeight)
+            : primaryUnit === 'lbs' && showKGs
+            ? convertToKG(totalWeight)
+            : totalWeight;
+
+        const displayUnit = showKGs ? 'kg' : 'lbs';
+
+        return {
+          type: 'weighted-duration',
+          value: totalDuration,
+          display: `${formatDuration(totalDuration)}`,
+          subtitle: `${sets.length} set${
+            sets.length > 1 ? 's' : ''
+          } • ${displayWeight.toFixed(0)} ${displayUnit} total`,
+        };
+      } else {
+        // Pure duration exercise
+        return {
+          type: 'duration',
+          value: totalDuration,
+          display: formatDuration(totalDuration),
+          subtitle: `${sets.length} set${sets.length > 1 ? 's' : ''}`,
+        };
+      }
+    } else {
+      // For weight-based exercises, calculate volume
+      if (hasWeight) {
+        // Calculate total volume (weight × reps)
+        const totalVolume = sets.reduce((acc, set) => {
+          const weight = set.weight || 0;
+          const reps = set.reps || 0;
+          return acc + weight * reps;
+        }, 0);
+
+        // Get the most common weight unit
+        const weightUnits = sets
+          .filter(set => set.weight && set.weight > 0)
+          .map(set => set.weightUnit)
+          .filter(Boolean);
+
+        const mostCommonUnit =
+          weightUnits.length > 0
+            ? weightUnits.reduce((acc, unit) => {
+                acc[unit] = (acc[unit] || 0) + 1;
+                return acc;
+              }, {} as Record<string, number>)
+            : null;
+
+        const primaryUnit = mostCommonUnit
+          ? Object.keys(mostCommonUnit).reduce((a, b) =>
+              mostCommonUnit[a] > mostCommonUnit[b] ? a : b,
+            )
+          : 'kg';
+
+        // Convert to user's preferred unit
+        const displayValue =
+          primaryUnit === 'kg' && !showKGs
+            ? convertToLBs(totalVolume)
+            : primaryUnit === 'lbs' && showKGs
+            ? convertToKG(totalVolume)
+            : totalVolume;
+
+        const displayUnit = showKGs ? 'kg' : 'lbs';
+
+        return {
+          type: 'weight',
+          value: totalVolume,
+          display: `${displayValue.toFixed(0)} ${displayUnit}`,
+          subtitle: `${sets.length} set${
+            sets.length > 1 ? 's' : ''
+          } • ${sets.reduce(
+            (acc, set) => acc + (set.reps || 0),
+            0,
+          )} total reps`,
+        };
+      } else {
+        // Bodyweight exercise - show total reps
+        const totalReps = sets.reduce((acc, set) => {
+          return acc + (set.reps || 0);
+        }, 0);
+
+        return {
+          type: 'bodyweight',
+          value: totalReps,
+          display: `${totalReps} reps`,
+          subtitle: `${sets.length} set${sets.length > 1 ? 's' : ''}`,
+        };
+      }
+    }
+  };
+
+  const volumeInfo = calculateExerciseVolume(_sets);
+  if (!volumeInfo) return null;
+
+  return (
+    <View className="mt-4 pt-4 border-t border-gray-100">
+      <View className="flex-row items-center justify-between">
+        <View className="flex-1">
+          <Text className="text-sm text-gray-600">
+            {volumeInfo.type === 'duration'
+              ? 'Total Time'
+              : volumeInfo.type === 'weighted-duration'
+              ? 'Total Time'
+              : volumeInfo.type === 'weight'
+              ? 'Exercise Volume'
+              : 'Total Reps'}
+          </Text>
+          <Text className="text-xs text-gray-500 mt-1">
+            {volumeInfo.subtitle}
+          </Text>
+        </View>
+        <View className="flex-row items-center">
+          <Ionicons
+            name={
+              volumeInfo.type === 'duration' ||
+              volumeInfo.type === 'weighted-duration'
+                ? 'time-outline'
+                : volumeInfo.type === 'weight'
+                ? 'barbell-outline'
+                : 'body-outline'
+            }
+            size={16}
+            color={APP_COLORS.lightGrayPrimary}
+          />
+          <Text className="text-sm font-medium text-gray-900 ml-2">
+            {volumeInfo.display}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+};
 
 const WorkoutRecord = () => {
   const {workoutId} = useLocalSearchParams<{workoutId: string}>();
+  const [showKGs, setShowKGs] = React.useState(true);
   const {workout, isLoading, isError, refetch} = useWorkoutByID(workoutId);
   const {mutateAsync: deleteWorkout, isLoading: isDeleteWorkoutLoading} =
     useDeleteWorkout(workoutId);
+
   const router = useRouter();
 
   const handleDeleteWorkout = () => {
@@ -57,6 +251,40 @@ const WorkoutRecord = () => {
       </View>
     );
   }
+  const convertToKG = (lbs: number) => lbs * 0.453592;
+  const convertToLBs = (kg: number) => kg * 2.20462;
+
+  const getVolumeInfo = () => {
+    // const sets = [];
+
+    // workout.exercises.forEach(item => item.sets.forEach(set => sets.push(set)));
+    const initialVol = {lbs: 0, kg: 0};
+
+    const finalVol = workout.exercises.reduce((total, exercise) => {
+      return exercise.sets.reduce((setsSum, _set) => {
+        return {
+          ...setsSum,
+          [_set.weightUnit]: (setsSum[_set.weightUnit] || 0) + _set.weight,
+        };
+      }, total);
+    }, initialVol);
+
+    const weight = showKGs
+      ? finalVol.kg + convertToKG(finalVol.lbs)
+      : finalVol.lbs + convertToLBs(finalVol.kg);
+    return weight.toFixed(0);
+  };
+
+  const getWeightString = (weight: number, unit: 'lbs' | 'kg') => {
+    if (unit === 'kg' && showKGs) return weight + ' kg';
+    else if (unit === 'kg' && !showKGs) {
+      return convertToLBs(weight).toFixed(0) + ' lbs';
+    } else if (unit === 'lbs' && showKGs) {
+      return convertToKG(weight).toFixed(0) + ' kg';
+    } else if (unit === 'lbs' && !showKGs) {
+      return weight + ' lbs';
+    }
+  };
 
   return (
     <AppSafeAreaBoundary classname="bg-gray-50">
@@ -138,16 +366,20 @@ const WorkoutRecord = () => {
           </View>
 
           {/* info kgs exercise */}
-          <View className="flex-row items-center">
+          <TouchableOpacity
+            className="flex-row items-center"
+            activeOpacity={0.8}
+            onPress={() => setShowKGs(pre => !pre)}
+          >
             <Ionicons
               name="barbell-outline"
               size={20}
               color={APP_COLORS.lightGrayPrimary}
             />
             <Text className="text-gray-700 ml-3 font-medium">
-              220 kg total volume
+              {getVolumeInfo()} {showKGs ? 'kg' : 'lbs'} total volume
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* Exercise List 1 */}
@@ -191,11 +423,14 @@ const WorkoutRecord = () => {
                           {setIndex + 1}
                         </Text>
                       </View>
+
                       <Text className="text-gray-900 font-medium">
-                        {set.reps} reps
+                        {set.setType === 'duration'
+                          ? `duration`
+                          : `${set.reps} reps`}
                       </Text>
                     </View>
-                    {set?.weight && (
+                    {set?.weight && set.weight > 0 && (
                       <View className="flex-row items-center">
                         <Ionicons
                           name="barbell-outline"
@@ -203,7 +438,43 @@ const WorkoutRecord = () => {
                           color={APP_COLORS.lightGrayPrimary}
                         />
                         <Text className="text-gray-700 ml-2 font-medium">
-                          {set.weight} {set.weightUnit ?? 'lbs'}
+                          {getWeightString(set.weight, set.weightUnit)}
+                        </Text>
+                      </View>
+                    )}
+                    {(!set.weight || set.weight === 0) && !set.duration && (
+                      <View className="flex-row items-center">
+                        <Ionicons
+                          name="body-outline"
+                          size={16}
+                          color={APP_COLORS.lightGrayPrimary}
+                        />
+                        <Text className="text-gray-700 ml-2 font-medium">
+                          Body weight
+                        </Text>
+                      </View>
+                    )}
+                    {set.duration && (!set.weight || set.weight === 0) && (
+                      <View className="flex-row items-center">
+                        <Ionicons
+                          name="time-outline"
+                          size={16}
+                          color={APP_COLORS.lightGrayPrimary}
+                        />
+                        <Text className="text-gray-700 ml-2 font-medium">
+                          {formatDuration(set.duration)}
+                        </Text>
+                      </View>
+                    )}
+                    {set.duration && set.weight && set.weight > 0 && (
+                      <View className="flex-row items-center">
+                        <Ionicons
+                          name="time-outline"
+                          size={16}
+                          color={APP_COLORS.lightGrayPrimary}
+                        />
+                        <Text className="text-gray-700 ml-2 font-medium">
+                          {formatDuration(set.duration)}
                         </Text>
                       </View>
                     )}
@@ -211,13 +482,16 @@ const WorkoutRecord = () => {
                 ))}
               </View>
               {/* volume info */}
+              <ExerciseVolumeDisplay
+                _sets={_exercise.sets}
+                showKGs={showKGs}
+                convertToKG={convertToKG}
+                convertToLBs={convertToLBs}
+              />
             </View>
           ))}
         </View>
       </ScrollView>
-      {/* <Text>
-        WorkoutRecord {'\n'} {JSON.stringify(workout, null, 2)}
-      </Text> */}
     </AppSafeAreaBoundary>
   );
 };

@@ -20,22 +20,19 @@ export function workoutDateFormate(_date: string): string {
     year: 'numeric',
   });
 }
+
 export function formatDuration(seconds?: number) {
-  if (!seconds) {
-    return '';
-  }
+  if (!seconds) return '';
 
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
 
-  let parts = [];
+  const parts: string[] = [];
 
   if (h > 0) {
     parts.push(`${h}h`);
-
-    // Only show minutes if > 0 OR seconds exist
-    if (m > 0 && s > 0) {
+    if (m > 0) {
       parts.push(`${m}m`);
     }
   } else if (m > 0) {
@@ -48,6 +45,35 @@ export function formatDuration(seconds?: number) {
 
   return parts.join(' ');
 }
+
+// export function formatDuration(seconds?: number) {
+//   if (!seconds) {
+//     return '';
+//   }
+
+//   const h = Math.floor(seconds / 3600);
+//   const m = Math.floor((seconds % 3600) / 60);
+//   const s = seconds % 60;
+
+//   let parts = [];
+
+//   if (h > 0) {
+//     parts.push(`${h}h`);
+
+//     // Only show minutes if > 0 OR seconds exist
+//     if (m > 0 && s > 0) {
+//       parts.push(`${m}m`);
+//     }
+//   } else if (m > 0) {
+//     parts.push(`${m}m`);
+//   }
+
+//   if (s > 0) {
+//     parts.push(`${s}s`);
+//   }
+
+//   return parts.join(' ');
+// }
 
 export const formatSingleWorkoutDate = (date: string | null) => {
   if (!date) {
