@@ -114,7 +114,7 @@ export default function Page() {
       <KeyboardAwareScrollView
         className="flex-1 p-4"
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{flexGrow: 1}}
+        contentContainerClassName="flex-grow"
       >
         <View className="flex-1 px-3">
           <View className="flex-1 justify-center">

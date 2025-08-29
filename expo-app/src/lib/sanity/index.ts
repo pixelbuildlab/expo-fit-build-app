@@ -13,7 +13,7 @@ export {publicClient as client};
 
 export const adminConfig = {
   ...clientConfig,
-  token: process.env.SANITY_API_TOKEN,
+  token: process.env.SANITY_TOKEN,
 };
 
 export const adminClient = createClient(adminConfig);
