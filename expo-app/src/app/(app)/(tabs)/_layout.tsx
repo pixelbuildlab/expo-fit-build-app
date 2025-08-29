@@ -1,19 +1,23 @@
 import React from 'react';
 import {Tabs} from 'expo-router';
 import {AntDesign} from '@expo/vector-icons';
-import {Image} from 'react-native';
+// import {Image} from 'react-native';
+
+const RenderIcon =
+  ({name}: {name: keyof typeof AntDesign.glyphMap}) =>
+  ({color, size}: {color: string; size: number}) =>
+    <AntDesign name={name} color={color} size={size} />;
 
 const AppTabLayout = () => {
   return (
-    <Tabs>
+    // temporary
+    <Tabs initialRouteName="history">
       <Tabs.Screen
         name="index"
         options={{
           headerShown: false,
           title: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <AntDesign name="home" color={color} size={size} />
-          ),
+          tabBarIcon: RenderIcon({name: 'home'}),
         }}
       />
       <Tabs.Screen
@@ -21,9 +25,11 @@ const AppTabLayout = () => {
         options={{
           headerShown: false,
           title: 'Exercises',
-          tabBarIcon: ({color, size}) => (
-            <AntDesign name="book" color={color} size={size} />
-          ),
+          tabBarIcon: RenderIcon({name: 'book'}),
+          // tabBarIcon:
+          // ({color, size}) => (
+          //   <AntDesign name="book" color={color} size={size} />
+          // ),
         }}
       />
       <Tabs.Screen
@@ -31,9 +37,11 @@ const AppTabLayout = () => {
         options={{
           headerShown: false,
           title: 'Workout',
-          tabBarIcon: ({color, size}) => (
-            <AntDesign name="pluscircle" color={color} size={size} />
-          ),
+          tabBarIcon: RenderIcon({name: 'pluscircle'}),
+
+          // tabBarIcon: ({color, size}) => (
+          //   <AntDesign name="pluscircle" color={color} size={size} />
+          // ),
         }}
       />
       <Tabs.Screen
@@ -52,9 +60,11 @@ const AppTabLayout = () => {
         options={{
           headerShown: false,
           title: 'History',
-          tabBarIcon: ({color, size}) => (
-            <AntDesign name="clockcircleo" color={color} size={size} />
-          ),
+          tabBarIcon: RenderIcon({name: 'clockcircleo'}),
+
+          // tabBarIcon: ({color, size}) => (
+          //   <AntDesign name="clockcircleo" color={color} size={size} />
+          // ),
         }}
       />
       <Tabs.Screen
@@ -62,10 +72,12 @@ const AppTabLayout = () => {
         options={{
           headerShown: false,
           title: 'Profile',
-          tabBarIcon: ({color, size}) => (
-            //  <Image style={{width:28, height:28, borderRadius:100}} className='rounded-full' source={user?.imageUrl?? user?.externalAccounts[0]?.imageUrls}/>
-            <></>
-          ),
+          tabBarIcon: RenderIcon({name: 'user'}),
+
+          // tabBarIcon: ({color, size}) => (
+          //   //  <Image style={{width:28, height:28, borderRadius:100}} className='rounded-full' source={user?.imageUrl?? user?.externalAccounts[0]?.imageUrls}/>
+          //   <></>
+          // ),
         }}
       />
     </Tabs>

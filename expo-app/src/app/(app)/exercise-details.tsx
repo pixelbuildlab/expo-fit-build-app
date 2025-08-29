@@ -8,21 +8,19 @@ import {
   Image,
   Linking,
 } from 'react-native';
-import {AppLoader, AppSafeAreaBoundary, AppStyledGradient} from '@/components';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {Ionicons} from '@expo/vector-icons';
-import {defineQuery} from 'groq';
-import {client, urlFor} from '@/lib/sanity';
-import {exerciseDifficultConfigs} from '@/constants';
-import {fetchWrapper} from '@/utils/fetchWrapper';
-import type {Exercise} from '@/types/sanity';
+import {
+  AppErrorScreen,
+  AppLoader,
+  AppSafeAreaBoundary,
+  AppStyledGradient,
+} from '@/components';
 import Markdown from 'react-native-markdown-display';
-
-const singleExerciseQuery = defineQuery(
-  '*[_type == "exercise" && _id == $id][0]',
-);
-
-type Instructions = {data: {instructions: string}};
+import {Ionicons} from '@expo/vector-icons';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import {urlFor} from '@/lib/sanity';
+import {useExercisesByID} from '@/hooks/sanity';
+import {useAIGuidance} from '@/hooks/ai/useAiGuidance';
+import {exerciseDifficultConfigs} from '@/constants';
 
 const ModalClose = () => {
   const router = useRouter();
@@ -42,50 +40,23 @@ const ModalClose = () => {
 
 const ExerciseDetails = () => {
   const {id} = useLocalSearchParams<{id: string | null}>();
-  const [exercise, setExercise] = React.useState<Exercise | null>(null);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [aIContent, setAIcontent] = React.useState('');
-  const [isAILoading, setIsAILoading] = React.useState(false);
+  const {exercise, isLoading, isError, isFetching, refetch} =
+    useExercisesByID(id);
+
+  const {
+    content: aIContent,
+    mutateAsync,
+    isLoading: isAILoading,
+    isError: isAIGuidanceError,
+  } = useAIGuidance(id);
+
   const router = useRouter();
 
-  const fetchData = React.useCallback(async () => {
-    try {
-      const exerciseData = await client.fetch(singleExerciseQuery, {id});
-      setExercise(exerciseData);
-    } catch (error) {
-      console.log('Error fetching single exercise:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [id]);
-
-  React.useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
   const getAIGuidance = async () => {
-    if (!exercise?._id) {
-      return;
-    }
-
-    try {
-      setIsAILoading(true);
-
-      const aIExerciseGuide = await fetchWrapper<Instructions>({
-        method: 'POST',
-        endpoint: 'ai/exercise-instructions',
-        body: {exerciseID: exercise._id},
-      });
-
-      setAIcontent(aIExerciseGuide.data.instructions);
-    } catch (error) {
-      console.log('Error getting AI guidance: ', error);
-    } finally {
-      setIsAILoading(false);
-    }
+    await mutateAsync();
   };
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <AppSafeAreaBoundary classname="flex-1 bg-white">
         <StatusBar backgroundColor="#000" barStyle="light-content" />
@@ -95,17 +66,12 @@ const ExerciseDetails = () => {
     );
   }
 
-  if (!exercise) {
+  if (!exercise || isError) {
     return (
-      <View className="items-center justify-center flex-1">
-        <Text className="text-gray-500">Unable to get exercise details</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          className="mt-4 px-6 bg-blue-500 py-3 rounded-lg"
-          onPress={() => router.back()}
-        >
-          <Text className="text-white font-semibold">Go Back</Text>
-        </TouchableOpacity>
+      <View className="flex-1">
+        <StatusBar backgroundColor="#000" barStyle="light-content" />
+        <ModalClose />
+        <AppErrorScreen onRetry={refetch} onGoBack={() => router.back()} />
       </View>
     );
   }
@@ -131,7 +97,7 @@ const ExerciseDetails = () => {
               end={[1, 1]}
               className="h-full w-full items-center justify-center"
             >
-              <Ionicons name="fitness" color="red" size={80} />
+              <Ionicons name="fitness" color="white" size={80} />
             </AppStyledGradient>
           )}
           <AppStyledGradient
@@ -247,8 +213,15 @@ const ExerciseDetails = () => {
               )}
             </View>
           )}
+
+          {isAIGuidanceError && (
+            <View className="flex-1 mt-6 bg-red-400">
+              <AppErrorScreen />
+            </View>
+          )}
+
           {/* Action */}
-          <View className="mt-8 gap-2">
+          <View className={`mt-6 gap-2`}>
             <TouchableOpacity
               activeOpacity={0.8}
               disabled={isAILoading}
