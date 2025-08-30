@@ -11,7 +11,7 @@ const RenderIcon =
 const AppTabLayout = () => {
   return (
     // temporary
-    <Tabs initialRouteName="history">
+    <Tabs initialRouteName="workout">
       <Tabs.Screen
         name="index"
         options={{
@@ -26,10 +26,6 @@ const AppTabLayout = () => {
           headerShown: false,
           title: 'Exercises',
           tabBarIcon: RenderIcon({name: 'book'}),
-          // tabBarIcon:
-          // ({color, size}) => (
-          //   <AntDesign name="book" color={color} size={size} />
-          // ),
         }}
       />
       <Tabs.Screen
@@ -38,10 +34,6 @@ const AppTabLayout = () => {
           headerShown: false,
           title: 'Workout',
           tabBarIcon: RenderIcon({name: 'pluscircle'}),
-
-          // tabBarIcon: ({color, size}) => (
-          //   <AntDesign name="pluscircle" color={color} size={size} />
-          // ),
         }}
       />
       <Tabs.Screen
@@ -61,10 +53,6 @@ const AppTabLayout = () => {
           headerShown: false,
           title: 'History',
           tabBarIcon: RenderIcon({name: 'clockcircleo'}),
-
-          // tabBarIcon: ({color, size}) => (
-          //   <AntDesign name="clockcircleo" color={color} size={size} />
-          // ),
         }}
       />
       <Tabs.Screen
@@ -73,11 +61,6 @@ const AppTabLayout = () => {
           headerShown: false,
           title: 'Profile',
           tabBarIcon: RenderIcon({name: 'user'}),
-
-          // tabBarIcon: ({color, size}) => (
-          //   //  <Image style={{width:28, height:28, borderRadius:100}} className='rounded-full' source={user?.imageUrl?? user?.externalAccounts[0]?.imageUrls}/>
-          //   <></>
-          // ),
         }}
       />
     </Tabs>

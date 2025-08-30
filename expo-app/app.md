@@ -10,10 +10,7 @@ Chat
 env see
 1- Gradients not working
 2- List exercise GROQ query not shown
-3-
-
-
-
+1
 
 move env to private keys -done maybe
 send exercise id instead of name for instructions and add service to get name only from sanity and pass to ai model
@@ -24,6 +21,16 @@ superwall:
 
 
 use creative common videos url
+
+<!-- // // //   if (Platform.OS === 'android') {
+// // //     return (
+// // //       <View
+// // //         className={`elevation-[${elevation}] ${className}`}
+// // //         style={style}
+// // //         {...rest}
+// // //       />
+// // //     );
+// // //   } -->
 
 ## TODO
     -   Use React native bottoms tabs callstackincubator
@@ -37,7 +44,9 @@ use creative common videos url
     -   volume changes in workout screen 
     -   duration in workout screen
     -   notes in workout screen
-
+    -   fix refresh control loader on delete workout
+    -   react-native-markdown-display replace with https://github.com/gmsgowtham/react-native-marked see npm audit reporting
+    - app rendes on exercise selection for workout secltion/cration
 
 
 

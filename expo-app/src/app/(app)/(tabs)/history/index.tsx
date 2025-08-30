@@ -23,30 +23,12 @@ export default function HistoryPage() {
   console.log(refresh, 'todo implement');
 
   const router = useRouter();
-  // React.useEffect(() => {
-  //   if (refresh === '1') {
-  //     refetch();
-  //     router.replace('/(app)/(tabs)/history');
-  //   }
-  // }, [refetch, refresh, router]);
-
-  // const onRefresh = async () => {
-  //   await refetch();
-  // };
 
   const getExerciseNames = React.useCallback(
     (workout: GetWorkoutQueryResult[number]) =>
       workout.exercises?.map(_exercise => _exercise.exercise.name),
     [],
   );
-
-  // const getWorkoutSets = React.useCallback(
-  //   (workout: GetWorkoutQueryResult[number]) =>
-  //     workout.exercises?.reduce((sum, item) => {
-  //       return sum + (item.sets?.length || 0);
-  //     }, 0),
-  //   [],
-  // );
 
   if (isLoading) {
     return (

@@ -27,7 +27,7 @@ export const useDeleteWorkout = (workoutID: string | undefined) => {
       console.log('Failed to delete workout, ID:', workoutID, error);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
+      await queryClient.fetchQuery({
         queryKey: [QUERY_KEYS.workoutHistory],
       });
     },
