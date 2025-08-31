@@ -15,16 +15,6 @@
 // // //     return <View style={style} className={className} {...rest} />;
 // // //   }
 
-// // //   if (Platform.OS === 'android') {
-// // //     return (
-// // //       <View
-// // //         className={`elevation-[${elevation}] ${className}`}
-// // //         style={style}
-// // //         {...rest}
-// // //       />
-// // //     );
-// // //   }
-
 // // //   const iosShadowElevation = {
 // // //     shadowOpacity: 0.0015 * elevation + 0.18,
 // // //     shadowRadius: 0.54 * elevation,

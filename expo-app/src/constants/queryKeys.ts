@@ -5,4 +5,5 @@ export const QUERY_KEYS = {
   exercise: 'exercise',
   aiGuidance: 'aiGuidance',
   deleteWorkout: 'deleteWorkout',
+  createWorkout: 'createWorkout',
 };

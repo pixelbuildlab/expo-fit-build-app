@@ -12,8 +12,8 @@ import {useLocalSearchParams, useRouter} from 'expo-router';
 import {APP_COLORS} from '@/theme';
 import {formatDuration, workoutDateFormate} from '@/utils/time';
 import {useWorkoutHistory} from '@/hooks/sanity';
-import type {GetWorkoutQueryResult} from '@/types/sanity';
 import {getWorkoutSets} from '@/utils/appUtils';
+import type {GetWorkoutQueryResult} from '@/types/sanity';
 
 export default function HistoryPage() {
   const {workouts, isLoading, refetch, isRefetching} = useWorkoutHistory();
@@ -23,30 +23,12 @@ export default function HistoryPage() {
   console.log(refresh, 'todo implement');
 
   const router = useRouter();
-  // React.useEffect(() => {
-  //   if (refresh === '1') {
-  //     refetch();
-  //     router.replace('/(app)/(tabs)/history');
-  //   }
-  // }, [refetch, refresh, router]);
-
-  // const onRefresh = async () => {
-  //   await refetch();
-  // };
 
   const getExerciseNames = React.useCallback(
     (workout: GetWorkoutQueryResult[number]) =>
       workout.exercises?.map(_exercise => _exercise.exercise.name),
     [],
   );
-
-  // const getWorkoutSets = React.useCallback(
-  //   (workout: GetWorkoutQueryResult[number]) =>
-  //     workout.exercises?.reduce((sum, item) => {
-  //       return sum + (item.sets?.length || 0);
-  //     }, 0),
-  //   [],
-  // );
 
   if (isLoading) {
     return (
