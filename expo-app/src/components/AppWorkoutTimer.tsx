@@ -2,13 +2,14 @@ import React from 'react';
 import {Text} from 'react-native';
 import {useFocusEffect} from 'expo-router';
 import {useStopwatch} from 'react-timer-hook';
+import {useTimerStore} from '@/store';
 
 export const AppWorkoutTimer = () => {
-  const {minutes, seconds, reset, isRunning} = useStopwatch({
+  const {minutes, seconds, reset, totalSeconds, isRunning} = useStopwatch({
     autoStart: true,
   });
-  // const {workoutExercises, resetWorkout, weightUnit, setWeightUnit} =
-  // useWorkoutStore();
+
+  const {setTimer} = useTimerStore();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -24,7 +25,9 @@ export const AppWorkoutTimer = () => {
     }, [reset, isRunning]),
   );
 
-  // console.log('timer,', seconds);
+  React.useEffect(() => {
+    setTimer(totalSeconds);
+  }, [setTimer, totalSeconds]);
 
   const workoutDuration = React.useMemo(
     () =>

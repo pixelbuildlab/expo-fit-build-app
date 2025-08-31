@@ -74,7 +74,9 @@ export const ExerciseSetCard = ({
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() =>
-              updateExerciseSet(exerciseId, set.id, {isCompleted: true})
+              updateExerciseSet(exerciseId, set.id, {
+                isCompleted: !set.isCompleted,
+              })
             }
             className={`w-12 h-12 rounded-xl items-center justify-center mx-1 ${
               set.isCompleted ? 'bg-green-500' : 'bg-gray-200'

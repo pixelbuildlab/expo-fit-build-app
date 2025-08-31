@@ -3,28 +3,27 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
+
 import {adminClient} from '@/lib/sanity';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import type {WorkoutDocument} from '@/types/sanity/custom';
 
-const deleteWorkout = async (workoutID: string | undefined) => {
-  if (!workoutID) {
-    throw new Error('App unable to access workout ID');
-  }
-  return await adminClient.delete(workoutID);
+const createWorkout = async (workoutData: WorkoutDocument) => {
+  return await adminClient.create(workoutData);
 };
 
-export const useDeleteWorkout = (workoutID: string | undefined) => {
+export const useCreateWorkout = () => {
   const queryClient = useQueryClient();
 
   const isMutatingWorkout = useIsMutating({
-    mutationKey: [QUERY_KEYS.deleteWorkout, workoutID],
+    mutationKey: [QUERY_KEYS.createWorkout],
   });
 
   const mutation = useMutation({
-    mutationKey: [QUERY_KEYS.deleteWorkout, workoutID],
-    mutationFn: () => deleteWorkout(workoutID),
+    mutationKey: [QUERY_KEYS.createWorkout],
+    mutationFn: (workoutData: WorkoutDocument) => createWorkout(workoutData),
     onError: error => {
-      console.log('Failed to delete workout, ID:', workoutID, error);
+      console.log('Failed to create workout:', error);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({

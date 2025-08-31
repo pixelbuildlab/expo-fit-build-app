@@ -20,7 +20,6 @@ const ExerciseSelectionModal = ({
     addExerciseToWorkout({name: exercise.name, sanityId: exercise._id});
     onClose();
   };
-
   return (
     <Modal
       visible={visible}

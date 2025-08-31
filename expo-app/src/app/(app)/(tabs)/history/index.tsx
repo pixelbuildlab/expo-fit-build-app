@@ -12,8 +12,8 @@ import {useLocalSearchParams, useRouter} from 'expo-router';
 import {APP_COLORS} from '@/theme';
 import {formatDuration, workoutDateFormate} from '@/utils/time';
 import {useWorkoutHistory} from '@/hooks/sanity';
-import type {GetWorkoutQueryResult} from '@/types/sanity';
 import {getWorkoutSets} from '@/utils/appUtils';
+import type {GetWorkoutQueryResult} from '@/types/sanity';
 
 export default function HistoryPage() {
   const {workouts, isLoading, refetch, isRefetching} = useWorkoutHistory();

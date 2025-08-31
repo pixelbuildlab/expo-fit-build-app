@@ -11,6 +11,7 @@ export * from './AppErrorScreen';
 export * from './AppElevatedView';
 export * from './ExerciseSelectionModal';
 export * from './AppWorkoutTimer';
+export * from './ActiveWorkoutBottomControls';
 export * from './ExerciseSetCard';
 export * from './form';
 export * from './screens';

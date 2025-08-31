@@ -10,13 +10,14 @@ import {
   View,
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
-import {useRouter} from 'expo-router';
 import elevations from 'react-native-elevation';
 import {
+  ActiveWorkoutBottomControls,
   AppWorkoutTimer,
   ExerciseSelectionModal,
   ExerciseSetCard,
 } from '@/components';
+import {useRouter} from 'expo-router';
 import {useWorkoutStore} from '@/store';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -24,7 +25,6 @@ const ActiveWorkout = () => {
   const {top} = useSafeAreaInsets();
   const [showModal, setShowModal] = React.useState(false);
   const router = useRouter();
-
   const {
     workoutExercises,
     resetWorkout,
@@ -33,6 +33,7 @@ const ActiveWorkout = () => {
     deleteWorkoutExercise,
     addSetToExercise,
   } = useWorkoutStore();
+  console.log('main workout');
 
   const handleEndWorkout = () => {
     Alert.alert('Cancel Workout', 'Are you sure you want to cancel workout?', [
@@ -47,6 +48,12 @@ const ActiveWorkout = () => {
       },
     ]);
   };
+
+  const buttonDisableState =
+    !workoutExercises.length ||
+    workoutExercises?.some(exercise =>
+      exercise.sets.some(set => !set.isCompleted),
+    );
 
   return (
     <View className="flex-1">
@@ -205,20 +212,14 @@ const ActiveWorkout = () => {
               </View>
             ))}
             {/* add button */}
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => setShowModal(true)}
-              className="bg-blue-600 rounded-2xl py-4 items-center mb-8 active:bg-blue-700"
-            >
-              <View className="flex-row items-center">
-                <Ionicons size={20} name="add" className="mr-2" color="#fff" />
-                <Text className="text-white font-semibold text-lg">
-                  Add Exercise
-                </Text>
-              </View>
-            </TouchableOpacity>
+            {/* controls move to fix bottom if relocated put here and remove additional view */}
           </ScrollView>
         </KeyboardAvoidingView>
+
+        <ActiveWorkoutBottomControls
+          setShowModal={setShowModal}
+          buttonDisableState={buttonDisableState}
+        />
 
         {/* end list */}
       </View>

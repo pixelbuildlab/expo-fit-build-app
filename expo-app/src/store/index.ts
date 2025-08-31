@@ -7,6 +7,7 @@ const INITIAL_STATE: InitialState = {
   weightUnit: 'lbs',
   workoutExercises: [],
   workoutTime: '',
+  // timer: 0,
 };
 
 const getID = () => `${Math.random()}-${new Date().toISOString()}`;
@@ -119,10 +120,16 @@ export const useWorkoutStore = create<WorkoutStore>()(
   persist(workoutStoreSlice, {
     name: 'workout-store',
     storage: createJSONStorage(() => AsyncStorage),
-    // partialize: state => ({
-    //   weightUnit: state.weightUnit,
-    // }),
-
     version: 5,
   }),
 );
+
+export const useTimerStore = create<{
+  timer: number;
+  setTimer: (timer: number) => void;
+}>()(set => ({
+  timer: 0,
+  setTimer: (timer: number) => {
+    set(() => ({timer}));
+  },
+}));
