@@ -10,10 +10,7 @@ Chat
 env see
 1- Gradients not working
 2- List exercise GROQ query not shown
-3-
-
-
-
+1
 
 move env to private keys -done maybe
 send exercise id instead of name for instructions and add service to get name only from sanity and pass to ai model
@@ -25,20 +22,35 @@ superwall:
 
 use creative common videos url
 
+<!-- // // //   if (Platform.OS === 'android') {
+// // //     return (
+// // //       <View
+// // //         className={`elevation-[${elevation}] ${className}`}
+// // //         style={style}
+// // //         {...rest}
+// // //       />
+// // //     );
+// // //   } -->
+
 ## TODO
     -   Use React native bottoms tabs callstackincubator
     -   replace expo with react-native
     -   enable liquid class
     -   dont pass id to get workouts/ use token
-    -   fix shadows in android using library or custom
+    -   fix shadows in android using library or custom or elevations[2]->sm
     -   add delete date to workouts and then get only active/non-deleted
     -   remove refresh on workout history as invalidate query to refetch 
     -   implement sanity/supabase(later planned) in backend
     -   volume changes in workout screen 
     -   duration in workout screen
     -   notes in workout screen
-
-
+    -   fix refresh control loader on delete workout
+    -   react-native-markdown-display replace with https://github.com/gmsgowtham/react-native-marked see npm audit reporting
+    -   app rendes on exercise selection for workout secltion/cration due to timer and its aslo starts again 
+    -   Clean AI response not to include junk like thinking etc
+    -   reset store on logout to clean everything
+    -   clear queries/tanstack on logout
+    
 
 
 ## Prompt
