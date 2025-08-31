@@ -10,5 +10,7 @@ export * from './AppStyledGradient';
 export * from './AppErrorScreen';
 export * from './AppElevatedView';
 export * from './ExerciseSelectionModal';
+export * from './AppWorkoutTimer';
+export * from './ExerciseSetCard';
 export * from './form';
 export * from './screens';

@@ -37,7 +37,7 @@ use creative common videos url
     -   replace expo with react-native
     -   enable liquid class
     -   dont pass id to get workouts/ use token
-    -   fix shadows in android using library or custom
+    -   fix shadows in android using library or custom or elevations[2]->sm
     -   add delete date to workouts and then get only active/non-deleted
     -   remove refresh on workout history as invalidate query to refetch 
     -   implement sanity/supabase(later planned) in backend
@@ -46,8 +46,11 @@ use creative common videos url
     -   notes in workout screen
     -   fix refresh control loader on delete workout
     -   react-native-markdown-display replace with https://github.com/gmsgowtham/react-native-marked see npm audit reporting
-    - app rendes on exercise selection for workout secltion/cration
-
+    -   app rendes on exercise selection for workout secltion/cration due to timer and its aslo starts again 
+    -   Clean AI response not to include junk like thinking etc
+    -   reset store on logout to clean everything
+    -   clear queries/tanstack on logout
+    
 
 
 ## Prompt

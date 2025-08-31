@@ -9,22 +9,30 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useFocusEffect, useRouter} from 'expo-router';
+import {Ionicons} from '@expo/vector-icons';
+import {useRouter} from 'expo-router';
+import elevations from 'react-native-elevation';
+import {
+  AppWorkoutTimer,
+  ExerciseSelectionModal,
+  ExerciseSetCard,
+} from '@/components';
 import {useWorkoutStore} from '@/store';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useStopwatch} from 'react-timer-hook';
-import {Ionicons} from '@expo/vector-icons';
-import {ExerciseSelectionModal} from '@/components';
 
 const ActiveWorkout = () => {
   const {top} = useSafeAreaInsets();
   const [showModal, setShowModal] = React.useState(false);
-  const {minutes, seconds, reset} = useStopwatch({autoStart: true});
   const router = useRouter();
 
-  const {workoutExercises, resetWorkout, weightUnit, setWeightUnit} =
-    useWorkoutStore();
-  // const [weightUnit, setWeightUnit] = React.useState<'lbs' | 'kg'>('kg');
+  const {
+    workoutExercises,
+    resetWorkout,
+    weightUnit,
+    setWeightUnit,
+    deleteWorkoutExercise,
+    addSetToExercise,
+  } = useWorkoutStore();
 
   const handleEndWorkout = () => {
     Alert.alert('Cancel Workout', 'Are you sure you want to cancel workout?', [
@@ -40,19 +48,6 @@ const ActiveWorkout = () => {
     ]);
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      // is no exercises in store then new workout
-      if (workoutExercises.length === 0) {
-        reset();
-      }
-    }, [reset, workoutExercises.length]),
-  );
-
-  const workoutDuration = `${minutes.toString().padStart(2, '0')}:${seconds
-    .toString()
-    .padStart(2, '0')}`;
-
   return (
     <View className="flex-1">
       <StatusBar barStyle="light-content" backgroundColor="#1f2937" />
@@ -64,10 +59,10 @@ const ActiveWorkout = () => {
             <Text className="text-white font-semibold text-xl">
               Active Workout
             </Text>
-            <Text className="text-gray-300 mt-px">
-              {/* duration func */}
-              {workoutDuration}
-            </Text>
+            <AppWorkoutTimer />
+            {/* <Text className="text-gray-300 mt-px">
+           workout here {variable}
+            </Text> */}
           </View>
           <View className="flex-row items-center space-x-3 gap-2">
             <View className="flex-row bg-gray-700 rounded-lg p-1">
@@ -138,7 +133,75 @@ const ActiveWorkout = () => {
           <ScrollView className="flex-1 px-6 mt-4">
             {workoutExercises.map(exercise => (
               <View key={exercise.id} className="mb-8">
-                <Text>exercise</Text>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  className="bg-blue-50 rounded-2xl p-4 mb-3"
+                  onPress={() =>
+                    router.push({
+                      pathname: '/exercise-details',
+                      params: {id: exercise.sanityId},
+                    })
+                  }
+                >
+                  <View className="flex-row items-center justify-between">
+                    <View className="flex-1">
+                      <Text className="text-xl font-bold text-gray-900 mb-2">
+                        {exercise.name ?? '- -'}
+                      </Text>
+                      <Text className="text-gray-600">
+                        {exercise.sets.length} sets{' '}
+                        {exercise.sets.filter(set => set.isCompleted).length}{' '}
+                        completed
+                      </Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => deleteWorkoutExercise(exercise.id)}
+                      className="bg-red-500 h-10 w-10 rounded-xl items-center justify-center ml-3"
+                      activeOpacity={0.8}
+                    >
+                      <Ionicons name="trash" size={16} color="#fff" />
+                    </TouchableOpacity>
+                  </View>
+                </TouchableOpacity>
+                {/* sets */}
+                <View
+                  className="bg-white rounded-2xl p-4 border border-gray-100 mb-3"
+                  style={{...elevations[2]}}
+                >
+                  <Text className="text-lg font-semibold text-gray-900 mb-3">
+                    Sets:
+                  </Text>
+                  {!exercise.sets?.length ? (
+                    <Text className="text-gray-500 text-center py-4">
+                      No sets yet. Add your first set below.
+                    </Text>
+                  ) : (
+                    exercise.sets.map((set, setIndex) => (
+                      <ExerciseSetCard
+                        set={set}
+                        setIndex={setIndex}
+                        key={set.id}
+                        exerciseId={exercise.id}
+                      />
+                    ))
+                  )}
+                  {/* add new set button */}
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => addSetToExercise(exercise.id)}
+                    className="bg-blue-100 border-2 border-dashed border-blue-300 rounded-lg py-3 items-center mt-2"
+                  >
+                    <View className="flex-row items-center">
+                      <Ionicons
+                        color="#3b82f6"
+                        size={16}
+                        name="add"
+                        className="mr-[6px]"
+                      />
+                      <Text className="text-blue-600 font-medium">Add Set</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               </View>
             ))}
             {/* add button */}

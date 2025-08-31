@@ -18,6 +18,7 @@ const ExerciseSelectionModal = ({
 
   const onExerciseClick = (exercise: ExerciseQueryResult[number]) => {
     addExerciseToWorkout({name: exercise.name, sanityId: exercise._id});
+    onClose();
   };
 
   return (

@@ -27,8 +27,6 @@ const ExercisesScreen = ({
   const [searchText, setSearchText] = React.useState('');
   const {exercises, isLoading, isRefetching, isError, refetch} = useExercises();
 
-  // /loging againg and aagain
-  console.log('r', isRefetching, 'l', isLoading);
   const _filteredExercises = React.useMemo(() => {
     if (!searchText) {
       return exercises;
