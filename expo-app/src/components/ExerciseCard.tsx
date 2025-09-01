@@ -2,7 +2,6 @@ import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {AppStyledGradient} from './AppStyledGradient';
-import {urlFor} from '@/lib/sanity';
 import {APP_COLORS} from '@/theme';
 import {exerciseDifficultConfigs} from '@/constants';
 import type {ExerciseQueryResult} from '@/types/sanity';
@@ -28,7 +27,7 @@ const ExerciseCard = ({onPress, item, showChevron}: ExerciseCardProps) => {
             <Image
               resizeMode="contain"
               className="h-full w-full"
-              source={{uri: urlFor(item?.exerciseImage.asset._ref).url()}}
+              source={{uri: item?.exerciseImage.asset._ref}}
             />
           ) : (
             <AppStyledGradient

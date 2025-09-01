@@ -1,12 +1,14 @@
 import {useQuery} from '@tanstack/react-query';
 import {useUser} from '@clerk/clerk-expo';
-import {client} from '@/lib/sanity';
-import {getWorkoutQuery} from '@/groq';
+import {fetchWrapper} from '@/utils/fetchWrapper';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import type {GetWorkoutQueryResult} from '@/types/sanity';
+
+type ResponseData = {data: GetWorkoutQueryResult; success: boolean};
 
 const getWorkoutHistory = async (userID: string) => {
-  return await client.fetch(getWorkoutQuery, {
-    userId: userID,
+  return await fetchWrapper<ResponseData>({
+    endpoint: 'workout/history/' + userID,
   });
 };
 
@@ -23,7 +25,7 @@ export const useWorkoutHistory = () => {
   }
 
   return {
-    workouts: query.data ?? [],
+    workouts: query.data?.data ?? [],
     ...query,
   };
 };

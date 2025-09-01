@@ -54,6 +54,7 @@ use creative common videos url
     -   fix status bar and colors and text colors
     -   fill in app routes in constant index
     -   fix refreshcontrol loader display
+    -   cleanup sanity from expo app
 
 
 ## Prompt

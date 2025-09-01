@@ -95,7 +95,7 @@ The application uses `@nestjs/config` for centralized configuration management:
 - **Centralized**: All configuration is managed in one place
 - **Environment Specific**: Different configurations for development/production
 
-### Configuration Structure
+### Configuration Structure -- See Configuration.ts
 
 ```typescript
 {

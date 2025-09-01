@@ -7,7 +7,8 @@
       "output": "static"
     },
     "android": {
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "com.git.pixelbuildlab.fitbuildapp"
     },
     "plugins": [
       [
@@ -18,6 +19,14 @@
       ]
     ],
     "name": "expo-fit-build-app",
-    "slug": "expo-fit-build-app"
+    "slug": "expo-fit-build-app",
+    "extra": {
+      "router": {
+        "origin": "https://n"
+      },
+      "eas": {
+        "projectId": "60f2f88c-7afb-419e-8987-c1bc0a361b13"
+      }
+    }
   }
 }

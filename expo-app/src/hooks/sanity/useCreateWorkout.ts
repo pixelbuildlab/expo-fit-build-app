@@ -3,13 +3,16 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-
-import {adminClient} from '@/lib/sanity';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import {fetchWrapper} from '@/utils/fetchWrapper';
 import type {WorkoutDocument} from '@/types/sanity/custom';
 
 const createWorkout = async (workoutData: WorkoutDocument) => {
-  return await adminClient.create(workoutData);
+  return await fetchWrapper({
+    endpoint: 'workout/admin/create',
+    method: 'POST',
+    body: workoutData,
+  });
 };
 
 export const useCreateWorkout = () => {

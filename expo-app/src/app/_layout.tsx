@@ -7,7 +7,18 @@ import {StatusBar} from 'expo-status-bar';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {DevToolsBubble} from 'react-native-react-query-devtools';
 
-const queryClient = new QueryClient({defaultOptions: {queries: {retry: 1}}});
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: Infinity,
+      gcTime: Infinity,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+    },
+  },
+});
 
 export default function AppRootLayout() {
   const onCopy = async (text: string) => {

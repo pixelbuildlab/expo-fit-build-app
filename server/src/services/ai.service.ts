@@ -39,8 +39,13 @@ export class AIService {
         max_tokens: maxTokens,
       });
 
+      const content = completion.choices[0]?.message?.content ?? '';
+      const cleanContent = content.includes('assistantfinal')
+        ? content.split('assistantfinal')[1].trim()
+        : content.trim();
+
       return {
-        content: completion.choices[0]?.message?.content || '',
+        content: cleanContent,
         model: model!,
         usage: completion.usage
           ? {

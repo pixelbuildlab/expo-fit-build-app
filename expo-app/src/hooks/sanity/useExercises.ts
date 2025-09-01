@@ -1,10 +1,12 @@
 import {useQuery} from '@tanstack/react-query';
-import {client} from '@/lib/sanity';
-import {exerciseQuery} from '@/groq';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import {fetchWrapper} from '@/utils/fetchWrapper';
+import type {ExerciseQueryResult} from '@/types/sanity';
+
+type ResponseData = {data: ExerciseQueryResult; success: boolean};
 
 const getExercises = async () => {
-  return await client.fetch(exerciseQuery);
+  return await fetchWrapper<ResponseData>({endpoint: 'exercises'});
 };
 
 export const useExercises = () => {
@@ -18,7 +20,7 @@ export const useExercises = () => {
   }
 
   return {
-    exercises: query.data ?? [],
+    exercises: query.data?.data ?? [],
     ...query,
   };
 };

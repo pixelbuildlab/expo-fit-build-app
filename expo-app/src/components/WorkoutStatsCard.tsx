@@ -28,7 +28,7 @@ const WorkoutStatsCard = ({title, showAverage}: WorkoutStatsCardProps) => {
   return (
     <View className="px-6 mb-6">
       <View
-        className="bg-white rounded-xl p-6 border border-green-100"
+        className="bg-white rounded-xl p-6 border border-gray-100"
         style={{...elevations[2]}}
       >
         <Text className="text-lg font-semibold text-gray-900 mb-4">

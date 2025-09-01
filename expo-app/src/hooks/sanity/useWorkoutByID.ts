@@ -1,11 +1,13 @@
 import {useQuery} from '@tanstack/react-query';
-import {client} from '@/lib/sanity';
-import {getSingleWorkoutQuery} from '@/groq';
+import {fetchWrapper} from '@/utils/fetchWrapper';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import type {GetWorkoutQueryResult} from '@/types/sanity';
+
+type ResponseData = {data: GetWorkoutQueryResult[number]; success: boolean};
 
 const getWorkoutByID = async (workoutID: string) => {
-  return await client.fetch(getSingleWorkoutQuery, {
-    workoutId: workoutID,
+  return await fetchWrapper<ResponseData>({
+    endpoint: 'workout/' + workoutID,
   });
 };
 
@@ -20,7 +22,7 @@ export const useWorkoutByID = (workoutID: string) => {
   }
 
   return {
-    workout: query.data,
+    workout: query.data?.data,
     ...query,
   };
 };

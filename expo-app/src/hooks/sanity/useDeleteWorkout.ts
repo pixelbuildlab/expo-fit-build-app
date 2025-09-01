@@ -3,14 +3,17 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import {adminClient} from '@/lib/sanity';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import {fetchWrapper} from '@/utils/fetchWrapper';
 
 const deleteWorkout = async (workoutID: string | undefined) => {
   if (!workoutID) {
     throw new Error('App unable to access workout ID');
   }
-  return await adminClient.delete(workoutID);
+  return await fetchWrapper({
+    endpoint: 'workout/admin/' + workoutID,
+    method: 'DELETE',
+  });
 };
 
 export const useDeleteWorkout = (workoutID: string | undefined) => {
