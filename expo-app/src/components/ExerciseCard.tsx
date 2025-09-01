@@ -6,6 +6,7 @@ import {urlFor} from '@/lib/sanity';
 import {APP_COLORS} from '@/theme';
 import {exerciseDifficultConfigs} from '@/constants';
 import type {ExerciseQueryResult} from '@/types/sanity';
+import elevations from 'react-native-elevation';
 
 type ExerciseCardProps = {
   onPress: () => void;
@@ -18,7 +19,8 @@ const ExerciseCard = ({onPress, item, showChevron}: ExerciseCardProps) => {
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.5}
-      className="bg-white rounded-2xl mb-4 shadow-sm border border-gray-100"
+      style={{...elevations[2]}}
+      className="bg-white rounded-2xl mb-4 border border-gray-100"
     >
       <View className="flex-row p-6">
         <View className="w-20 h-20 bg-white rounded-xl mr-4 overflow-hidden self-center">

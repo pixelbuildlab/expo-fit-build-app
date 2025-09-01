@@ -50,7 +50,10 @@ use creative common videos url
     -   Clean AI response not to include junk like thinking etc
     -   reset store on logout to clean everything
     -   clear queries/tanstack on logout
-    
+    -   account setting/changing setup flows screens
+    -   fix status bar and colors and text colors
+    -   fill in app routes in constant index
+    -   fix refreshcontrol loader display
 
 
 ## Prompt

@@ -88,6 +88,9 @@ export const formatSingleWorkoutDate = (date: string | null) => {
   });
 };
 
+export const formatJoinDate = (date: Date) =>
+  date.toLocaleDateString('en-US', {month: 'long', year: 'numeric'});
+
 export const formatSingleWorkoutTime = (date: string | null) => {
   if (!date) {
     return '';

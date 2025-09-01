@@ -13,6 +13,7 @@ import {
   AppStyledGradient,
 } from '@/components';
 import Toast from 'react-native-toast-message';
+import elevations from 'react-native-elevation';
 import {isValidEmail} from '@/utils';
 
 export default function Page() {
@@ -123,7 +124,8 @@ export default function Page() {
                 colors={['#2563eb', '#7e22ce']}
                 start={[0, 0]}
                 end={[1, 1]}
-                className="w-20 h-20 rounded-2xl mb-4 items-center justify-center shadow-lg"
+                style={{...elevations[4]}}
+                className="w-20 h-20 rounded-2xl mb-4 items-center justify-center"
               >
                 <Ionicons name="fitness" size={40} color="#fff" />
               </AppStyledGradient>
@@ -135,7 +137,10 @@ export default function Page() {
               </Text>
             </View>
             {/* Sign up main form */}
-            <View className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-4">
+            <View
+              className="bg-white rounded-2xl p-6  border border-gray-100 mb-4"
+              style={{...elevations[2]}}
+            >
               <Text className="text-2xl font-bold mb-6 text-gray-900 text-center">
                 Create Your Account
               </Text>
@@ -201,9 +206,10 @@ export default function Page() {
                 onPress={onSignUpPress}
                 disabled={isLoading}
                 activeOpacity={0.8}
-                className={`rounded-xl py-4 shadow-sm ${
+                className={`rounded-xl py-4 ${
                   isLoading ? 'bg-gray-400' : 'bg-blue-600'
                 }`}
+                style={{...elevations[2]}}
               >
                 <View className="flex-row items-center justify-center">
                   {isLoading ? (

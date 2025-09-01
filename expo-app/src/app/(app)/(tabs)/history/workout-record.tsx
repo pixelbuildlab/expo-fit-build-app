@@ -18,7 +18,7 @@ import {
   formatSingleWorkoutTime,
 } from '@/utils/time';
 import {getWorkoutSets} from '@/utils/appUtils';
-import Elevation from 'react-native-elevation';
+import Elevations from 'react-native-elevation';
 import {useDeleteWorkout} from '@/hooks/sanity';
 import type {GetWorkoutQueryResult} from '@/types/sanity';
 
@@ -202,9 +202,9 @@ const WorkoutRecord = () => {
           {workout.exercises?.map((_exercise, index) => (
             <View
               key={_exercise.exercise._id}
-              // className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
+              // className="bg-white rounded-2xl p-6  border border-gray-100"
               className="bg-white rounded-2xl p-6 border border-gray-100"
-              style={{...Elevation[2]}}
+              style={{...Elevations[2]}}
             >
               <View className="flex-row items-center justify-between mb-4">
                 <View className="flex-1">

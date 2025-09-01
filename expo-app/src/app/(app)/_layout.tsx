@@ -22,6 +22,34 @@ const AppTabLayout = () => {
             animationTypeForReplace: 'push',
           }}
         />
+        <Stack.Screen
+          name="(account)/account"
+          options={{
+            title: 'Edit Profile',
+            headerBackTitle: 'Profile',
+          }}
+        />
+        <Stack.Screen
+          name="(account)/help"
+          options={{
+            title: 'Help & Support',
+            headerBackTitle: 'Profile',
+          }}
+        />
+        <Stack.Screen
+          name="(account)/notifications"
+          options={{
+            title: 'Notifications',
+            headerBackTitle: 'Profile',
+          }}
+        />
+        <Stack.Screen
+          name="(account)/preferences"
+          options={{
+            title: 'Preferences',
+            headerBackTitle: 'Profile',
+          }}
+        />
       </Stack.Protected>
       <Stack.Protected guard={!isSignedIn}>
         <Stack.Screen name="sign-in" options={{headerShown: false}} />
