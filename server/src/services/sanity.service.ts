@@ -7,7 +7,7 @@ import {
   getSingleWorkoutQuery,
   getWorkoutQuery,
   singleExerciseQuery,
-} from 'src/constants/groq';
+} from '../constants/groq';
 import type {
   ExerciseQueryResult,
   GetSingleWorkoutQueryResult,
