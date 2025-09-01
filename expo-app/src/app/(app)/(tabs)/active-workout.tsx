@@ -156,7 +156,7 @@ const ActiveWorkout = () => {
                         {exercise.name ?? '- -'}
                       </Text>
                       <Text className="text-gray-600">
-                        {exercise.sets.length} sets{' '}
+                        {exercise.sets.length} sets ·{' '}
                         {exercise.sets.filter(set => set.isCompleted).length}{' '}
                         completed
                       </Text>

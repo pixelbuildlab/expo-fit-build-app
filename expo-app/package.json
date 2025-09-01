@@ -46,6 +46,7 @@
     "@react-native/eslint-config": "^0.81.0",
     "@types/react": "~19.0.10",
     "eslint": "^8.57.1",
+    "expo-router-sitemap": "^0.1.1",
     "prettier": "2.8.8",
     "react-native-dotenv": "^3.4.11",
     "react-native-react-query-devtools": "^1.5.1",

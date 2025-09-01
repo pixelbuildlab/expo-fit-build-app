@@ -10,8 +10,8 @@ const RenderIcon =
 
 const AppTabLayout = () => {
   return (
-    // temporary
-    <Tabs initialRouteName="workout">
+    // temporary untill new lib
+    <Tabs>
       <Tabs.Screen
         name="index"
         options={{

@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {APP_COLORS} from '@/theme';
+import elevations from 'react-native-elevation';
 
 type Props = {
   title?: string;
@@ -46,8 +47,8 @@ export function AppErrorScreen({
           <TouchableOpacity
             onPress={onRetry}
             activeOpacity={0.5}
-            className="flex-1 rounded-xl py-4 px-6 shadow-sm"
-            style={{backgroundColor: APP_COLORS.primaryBlue}}
+            className="flex-1 rounded-xl py-4 px-6"
+            style={{backgroundColor: APP_COLORS.primaryBlue, ...elevations[2]}}
           >
             <View className="flex-row items-center justify-center">
               <Ionicons name="refresh" size={20} color="white" />
