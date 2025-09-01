@@ -4,3 +4,7 @@ export const exerciseDifficultConfigs = {
   advanced: {color: 'bg-red-500', text: 'Advanced'},
   default: {color: 'bg-gray-500', text: '- -'},
 };
+
+export const APP_ROUTES = {
+  // todo fill in from Link and router.
+};

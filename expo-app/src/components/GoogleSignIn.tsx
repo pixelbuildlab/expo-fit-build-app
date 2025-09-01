@@ -2,7 +2,8 @@ import React, {useCallback, useEffect} from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as AuthSession from 'expo-auth-session';
 import {useSSO} from '@clerk/clerk-expo';
-import {View, Button, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
+import elevations from 'react-native-elevation';
 import {Ionicons} from '@expo/vector-icons';
 
 export const useWarmUpBrowser = () => {
@@ -57,7 +58,8 @@ export function GoogleSignIn() {
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.8}
-      className="bg-white border-2 border-gray-200 rounded-xl py-4 shadow-sm"
+      style={{...elevations[2]}}
+      className="bg-white border-2 border-gray-200 rounded-xl py-4"
     >
       <View className="flex-row items-center justify-center">
         <Ionicons name="logo-google" size={20} color="#EA4335" />

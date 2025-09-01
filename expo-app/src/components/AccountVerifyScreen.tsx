@@ -6,6 +6,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {AppSafeAreaBoundary} from './AppSafeAreaBoundary';
 import {FormTextInput} from './form/FormTextInput';
 import {AppStyledGradient} from './AppStyledGradient';
+import elevations from 'react-native-elevation';
 
 type AccountVerifyScreenProps = {
   emailAddress: string;
@@ -46,7 +47,8 @@ export function AccountVerifyScreen({
                 colors={['#2563eb', '#7e22ce']}
                 start={[0, 0]}
                 end={[1, 1]}
-                className="w-20 h-20 rounded-2xl mb-4 items-center justify-center shadow-lg"
+                style={{...elevations[4]}}
+                className="w-20 h-20 rounded-2xl mb-4 items-center justify-center "
               >
                 <Ionicons name="mail" size={40} color="#fff" />
               </AppStyledGradient>
@@ -58,7 +60,10 @@ export function AccountVerifyScreen({
                 We have sent a verification code to {'\n'} {emailAddress}
               </Text>
             </View>
-            <View className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-4">
+            <View
+              className="bg-white rounded-2xl p-6  border border-gray-100 mb-4"
+              style={{...elevations[2]}}
+            >
               <Text className="text-2xl font-bold mb-6 text-gray-900 text-center">
                 Enter Verification Code
               </Text>
@@ -87,7 +92,8 @@ export function AccountVerifyScreen({
                 onPress={onVerifyPress}
                 disabled={isLoading}
                 activeOpacity={0.8}
-                className={`rounded-xl py-4 shadow-sm  mb-4 ${
+                style={{...elevations[2]}}
+                className={`rounded-xl py-4  mb-4 ${
                   isLoading ? 'bg-gray-400' : 'bg-green-600'
                 }`}
               >
