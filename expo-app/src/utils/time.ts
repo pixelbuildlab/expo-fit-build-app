@@ -22,7 +22,7 @@ export function workoutDateFormate(_date: string): string {
 }
 
 export function formatDuration(seconds?: number) {
-  if (!seconds) return '';
+  if (!seconds) return '0s';
 
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);

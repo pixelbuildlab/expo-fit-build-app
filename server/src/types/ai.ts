@@ -1,13 +1,13 @@
 // AI Model Types
-export interface AIRequest {
+export type AIRequest = {
   prompt: string;
   systemPrompt?: string;
   model?: string;
   temperature?: number;
   maxTokens?: number;
-}
+};
 
-export interface AIResponse {
+export type AIResponse = {
   content: string;
   model: string;
   usage?: {
@@ -16,4 +16,4 @@ export interface AIResponse {
     totalTokens: number;
   };
   error?: string;
-}
+};

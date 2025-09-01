@@ -2,3 +2,4 @@
 export * from './sanity';
 export * from './ai';
 export * from './api';
+export * from './sanityCustom';

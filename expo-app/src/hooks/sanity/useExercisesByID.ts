@@ -1,10 +1,14 @@
 import {useQuery} from '@tanstack/react-query';
-import {client} from '@/lib/sanity';
-import {singleExerciseQuery} from '@/groq';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import {fetchWrapper} from '@/utils/fetchWrapper';
+import type {ExerciseQueryResult} from '@/types/sanity';
+
+type ResponseData = {data: ExerciseQueryResult[number]; success: boolean};
 
 const getExerciseByID = async (exerciseID: string) => {
-  return await client.fetch(singleExerciseQuery, {id: exerciseID});
+  return await fetchWrapper<ResponseData>({
+    endpoint: 'exercises/' + exerciseID,
+  });
 };
 
 export const useExercisesByID = (exerciseID: string) => {
@@ -19,7 +23,7 @@ export const useExercisesByID = (exerciseID: string) => {
   }
 
   return {
-    exercise: query.data,
+    exercise: query.data?.data,
     ...query,
   };
 };

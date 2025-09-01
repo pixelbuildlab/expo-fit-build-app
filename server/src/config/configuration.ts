@@ -13,6 +13,7 @@ export default () => ({
 
   ai: {
     openRouterApiKey: process.env.OPENROUTER_API_KEY,
+    // defaultModel: 'meta-llama/llama-3.3-8b-instruct:free',
     defaultModel: 'openai/gpt-oss-20b:free',
     baseURL: 'https://openrouter.ai/api/v1',
   },

@@ -17,7 +17,6 @@ import {
 import Markdown from 'react-native-markdown-display';
 import {Ionicons} from '@expo/vector-icons';
 import {useLocalSearchParams, useRouter} from 'expo-router';
-import {urlFor} from '@/lib/sanity';
 import {useExercisesByID} from '@/hooks/sanity';
 import {useAIGuidance} from '@/hooks/ai/useAiGuidance';
 import {exerciseDifficultConfigs} from '@/constants';
@@ -87,7 +86,7 @@ const ExerciseDetails = () => {
               resizeMode="stretch"
               className="h-full w-full"
               source={{
-                uri: urlFor(exercise?.exerciseImage.asset._ref).url(),
+                uri: exercise?.exerciseImage.asset._ref,
               }}
             />
           ) : (
