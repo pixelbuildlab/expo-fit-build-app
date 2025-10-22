@@ -88,12 +88,13 @@ Each service requires its own environment configuration:
 - Configure production dataset
 
 ## Screenshots
-<p>
+<p align="center">
 <img src="./expo-app-screen-shots/1.png" width="300" />
 <img src="./expo-app-screen-shots/3.png" width="300" />
 <img src="./expo-app-screen-shots/4.png" width="300" />
 </p>
-<p>
+
+<p align="center">
 <img src="./expo-app-screen-shots/5.png" width="300" />
 <img src="./expo-app-screen-shots/6.png" width="300" />
 <img src="./expo-app-screen-shots/11.png" width="300" />
