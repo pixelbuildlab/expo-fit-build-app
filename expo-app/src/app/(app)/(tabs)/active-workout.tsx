@@ -33,7 +33,6 @@ const ActiveWorkout = () => {
     deleteWorkoutExercise,
     addSetToExercise,
   } = useWorkoutStore();
-  console.log('main workout');
 
   const handleEndWorkout = () => {
     Alert.alert('Cancel Workout', 'Are you sure you want to cancel workout?', [
