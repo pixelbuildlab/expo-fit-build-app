@@ -75,7 +75,6 @@ export function ActiveWorkoutBottomControls({
         exercises: validSanityExercises,
         duration: timer,
       };
-      console.log(JSON.stringify(workoutDoc), null, 2);
 
       await createWorkout(workoutDoc);
       Alert.alert(

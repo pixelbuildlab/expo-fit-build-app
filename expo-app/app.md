@@ -35,7 +35,7 @@ use creative common videos url
 ## TODO
     -   Use React native bottoms tabs callstackincubator
     -   replace expo with react-native
-    -   enable liquid class
+    -   enable liquid glass
     -   dont pass id to get workouts/ use token
     -   fix shadows in android using library or custom or elevations[2]->sm
     -   add delete date to workouts and then get only active/non-deleted
