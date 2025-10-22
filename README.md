@@ -94,6 +94,8 @@ Each service requires its own environment configuration:
 
   ![Auth](./expo-app-screen-shots/1.png)
   ![Main screen](./expo-app-screen-shots/3.png)
+  <img src="./expo-app-screen-shots/3.png" width="300" />
+
 </details>
 
 ## Contributing
