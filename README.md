@@ -87,6 +87,15 @@ Each service requires its own environment configuration:
 - Deploy Sanity Studio to Vercel or Netlify
 - Configure production dataset
 
+## Screenshots
+
+<details>
+  <summary>Screenshots</summary>
+
+  ![Auth](./expo-app-screen-shots/1.png)
+  ![Main screen](./expo-app-screen-shots/3.png)
+</details>
+
 ## Contributing
 
 1. Fork the repository
