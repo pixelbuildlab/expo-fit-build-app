@@ -88,6 +88,7 @@ Each service requires its own environment configuration:
 - Configure production dataset
 
 ## Screenshots
+<p align="center">
 <img src="./expo-app-screen-shots/1.png" width="300" />
 <img src="./expo-app-screen-shots/3.png" width="300" />
 <img src="./expo-app-screen-shots/4.png" width="300" />
@@ -95,6 +96,7 @@ Each service requires its own environment configuration:
 <img src="./expo-app-screen-shots/6.png" width="300" />
 <img src="./expo-app-screen-shots/11.png" width="300" />
 👉 [View more screenshots](./expo-app-screen-shots)
+</p>
 
 ## Contributing
 
